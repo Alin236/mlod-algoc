@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 typedef enum {
     Janvier = 1,
@@ -26,6 +27,8 @@ void initialiseDate(Date *);
 void afficheDate(Date *);
 Date creerDateParCopie();
 Date *newDate();
+unsigned int nbreJours(Mois mois, unsigned int annee);
+bool dateValide(Date uneDate);
 
 int main(){
     printf("initialiseDate\n");
@@ -64,4 +67,13 @@ Date creerDateParCopie(){
 
 Date *newDate(){
     return (Date *) malloc(sizeof(Date));
+}
+
+bool dateValide(Date uneDate){
+    unsigned int maxj = nbreJours(uneDate.mois, uneDate.mois);
+    if(uneDate.jour < 1 || uneDate.jour > maxj)
+        return false;
+    if(uneDate.mois < 1 || uneDate.mois > 12)
+        return false;
+    return true;
 }
