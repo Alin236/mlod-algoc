@@ -18,9 +18,9 @@ typedef enum {
     } Mois;
 
 typedef struct {
-    int jour;
+    unsigned short jour;
     Mois mois;
-    int annee;
+    unsigned short annee;
     } Date;
 
 void initialiseDate(Date *);
@@ -31,17 +31,17 @@ unsigned int nbreJours(Mois mois, unsigned int annee);
 bool dateValide(Date uneDate);
 
 int main(){
-    printf("initialiseDate\n");
+    printf("Version 1 : initialisation d'une date allouée statiquement\n");
     Date d;
     initialiseDate(&d); //Pourquoi a t-on ajouté un &?
     afficheDate(&d);
 
-    printf("\ncreerDateParCopie\n");
+    printf("\nVersion 2 :\n");
     //Date d;
     d = creerDateParCopie();
     afficheDate(&d);
 
-    printf("\nnewDate\n");
+    printf("\nVersion 3 :\n");
     Date *date;
     date = newDate();
     afficheDate(date);
@@ -52,21 +52,25 @@ int main(){
 }
 
 void initialiseDate(Date *d){
-    scanf("%i%i%i", &(d->jour), &(d->mois), &(d->annee));
+    scanf("%hi%i%hi", &(d->jour), &(d->mois), &(d->annee));
 }
 
 void afficheDate(Date *d){
-    printf("%i/%i/%i", d->jour, d->mois, d->annee);
+    printf("%hi/%i/%hi", d->jour, d->mois, d->annee);
 }
 
 Date creerDateParCopie(){
     Date d;
-    scanf("%i%i%i", &(d.jour), &(d.mois), &(d.annee));
+    scanf("%hi%i%hi", &(d.jour), &(d.mois), &(d.annee));
     return d;
 }
 
 Date *newDate(){
     return (Date *) malloc(sizeof(Date));
+}
+
+unsigned int nbreJours(Mois mois, unsigned int annee){
+    return 31;
 }
 
 bool dateValide(Date uneDate){
