@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+typedef struct {
+    uint8_t numLines;
+    uint8_t numColumns;
+    int **value;
+} Matrix;
+
 #define SIZE 5
 
 void matrix_mult(int64_t[][SIZE],int64_t[][SIZE],int64_t[][SIZE]);
@@ -41,4 +47,3 @@ void matrix_print(int64_t mResultat[][SIZE]){
         printf(")\n");
     }
 }
-
