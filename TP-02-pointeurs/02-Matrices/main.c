@@ -1,10 +1,11 @@
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define SIZE 5
 
-void matrix_mult(int64_t[][],int64_t[][],int64_t[][]);
-void matrix_print(int64_t[][]);
+void matrix_mult(int64_t[][SIZE],int64_t[][SIZE],int64_t[][SIZE]);
+void matrix_print(int64_t[][SIZE]);
 
 int main(void) {
     //matrices en ligne * colonne
@@ -32,6 +33,12 @@ void matrix_mult(int64_t mResultat[][SIZE], int64_t matrice1[][SIZE], int64_t ma
 }
 
 void matrix_print(int64_t mResultat[][SIZE]){
-    
+    for(int i = 0; i<SIZE; i++){
+        printf("(");
+        for(int j = 0; j<SIZE; j++){
+            printf("%li", mResultat[i][j]);
+        }
+        printf(")\n");
+    }
 }
 
