@@ -36,17 +36,17 @@ int main(){
     initialiseDate(&d); //Pourquoi a t-on ajouté un &?
     afficheDate(&d);
 
-    printf("\nVersion 2 :\n");
+    printf("\nVersion 2 : recopie d'une date allouée statiquement\n");
     //Date d;
     d = creerDateParCopie();
     afficheDate(&d);
 
-    printf("\nVersion 3 :\n");
+    printf("\nVersion 3 : allocation dynamique de date\n");
     Date *date;
     date = newDate();
     afficheDate(date);
-    //...
     free(date);
+    date = NULL;
 
     return EXIT_SUCCESS;
 }
@@ -66,7 +66,9 @@ Date creerDateParCopie(){
 }
 
 Date *newDate(){
-    return (Date *) malloc(sizeof(Date));
+    Date *d = (Date *) malloc(sizeof(Date));
+    scanf("%hi%i%hi", &(d->jour), &(d->mois), &(d->annee));
+    return d;
 }
 
 unsigned int nbreJours(Mois mois, unsigned int annee){
