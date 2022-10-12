@@ -17,6 +17,12 @@
 #include <string.h>
 #include <stdbool.h>
 
+typedef struct {
+	int year;
+	char *name;
+	char *field;
+	} winner;
+
 /* This function scans a line of text (until \n) and returns a char* that contains all characters on the line (up to 255) excluding \n.
 It also ensures the \0 termination.
 **WARNING**: The result of this function has been allocated (calloc) by the function */
@@ -49,11 +55,44 @@ int scanLineAsInt() {
 }
 
 
+winner *readWinners(int);
+void printWinners(winner *, int);
+void freeWinners(winner *winners, int nbGagnants);
+
 int main(void)
 {
 
 	int nbGagnants = scanLineAsInt();
-	printf("nbGagnants = %i\n",nbGagnants);
+	printf("%i\n",nbGagnants);
+
+	winner *winners = readWinners(nbGagnants);
+	printWinners(winners, nbGagnants);
+	freeWinners(winners, nbGagnants);
 
 	return EXIT_SUCCESS;
 }
+
+winner *readWinners(int nbGagnants){
+	winner *winners = malloc(50*sizeof(winner));
+	for(int i=0; i<nbGagnants; i++){
+		winners[i].year = scanLineAsInt();
+		winners[i].name = scanLine();
+		winners[i].field = scanLine();
+	}
+	return winners;
+}
+
+void printWinners(winner *winners, int nbGagnants){
+	for(int i=0; i<nbGagnants; i++){
+		printf("%i\n%s\n%s\n", winners[i].year, winners[i].name, winners[i].field);
+	}
+}
+
+void freeWinners(winner *winners, int nbGagnants){
+	for(int i=0; i<nbGagnants; i++){
+		free(winners[i].name);
+		free(winners[i].field);
+	}
+	free(winners);
+}
+
