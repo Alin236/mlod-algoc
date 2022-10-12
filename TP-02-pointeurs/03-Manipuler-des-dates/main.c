@@ -24,10 +24,15 @@ typedef struct {
 
 void initialiseDate(Date *);
 void afficheDate(Date *);
+Date creerDateParCopie();
 
 int main(){
     Date d;
     initialiseDate(&d); //Pourquoi a t-on ajouté un &?
+    afficheDate(&d);
+
+    //Date d;
+    d = creerDateParCopie();
     afficheDate(&d);
     return EXIT_SUCCESS;
 }
@@ -38,4 +43,10 @@ void initialiseDate(Date *d){
 
 void afficheDate(Date *d){
     printf("%i/%i/%i", d->jour, d->mois, d->annee);
+}
+
+Date creerDateParCopie(){
+    Date d;
+    scanf("%i%i%i", &(d.jour), &(d.mois), &(d.annee));
+    return d;
 }
