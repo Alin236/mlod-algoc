@@ -25,15 +25,26 @@ typedef struct {
 void initialiseDate(Date *);
 void afficheDate(Date *);
 Date creerDateParCopie();
+Date *newDate();
 
 int main(){
+    printf("initialiseDate\n");
     Date d;
     initialiseDate(&d); //Pourquoi a t-on ajouté un &?
     afficheDate(&d);
 
+    printf("\ncreerDateParCopie\n");
     //Date d;
     d = creerDateParCopie();
     afficheDate(&d);
+
+    printf("\nnewDate\n");
+    Date *date;
+    date = newDate();
+    afficheDate(date);
+    //...
+    free(date);
+
     return EXIT_SUCCESS;
 }
 
@@ -49,4 +60,8 @@ Date creerDateParCopie(){
     Date d;
     scanf("%i%i%i", &(d.jour), &(d.mois), &(d.annee));
     return d;
+}
+
+Date *newDate(){
+    return (Date *) malloc(sizeof(Date));
 }
