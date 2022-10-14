@@ -72,11 +72,18 @@ void detruire_r(Liste l) {
 // retourne la liste dans laquelle l'élément v a été ajouté en fin
 // version itérative
 Liste ajoutFin_i(Element v, Liste l) {
-	return TODO;
+	while(!estVide(l)){
+		l = l->suiv;
+	}
+	l = malloc(sizeof(Cellule));
+	l->val = v;
+	l->suiv = NULL;
+	return l;
 }
 
 // version recursive
 Liste ajoutFin_r(Element v, Liste l) {
+
 	return TODO;
 }
 
