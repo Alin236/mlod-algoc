@@ -81,8 +81,11 @@ Liste ajoutFin_i(Element v, Liste l) {
 
 // version recursive
 Liste ajoutFin_r(Element v, Liste l) {
-
-	return TODO;
+	if(estVide(l)){
+		l = creer(v);
+		return(l);
+	}
+	return ajoutFin_r(v, l->suiv);
 }
 
 // compare deux elements
