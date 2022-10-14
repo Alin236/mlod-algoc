@@ -36,7 +36,10 @@ void afficheElement(Element e) {
 // Attention la liste peut être vide !
 // version itérative
 void afficheListe_i(Liste l) {
-	TODO;
+	while(!estVide(l))
+	{
+		afficheElement(l->val);
+	}
 }
 
 // version recursive
