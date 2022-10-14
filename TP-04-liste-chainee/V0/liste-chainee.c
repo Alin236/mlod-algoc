@@ -104,7 +104,10 @@ Liste cherche_i(Element v,Liste l) {
 
 // version récursive
 Liste cherche_r(Element v,Liste l) {
-	return TODO;
+	if(!estVide(l) && !equalsElement(v, l->val)){
+		return cherche_r(v, l->suiv);
+	}
+	return l;
 }
 
 // Retourne la liste modifiée dans la laquelle le premier élément ayant la valeur v a été supprimé
