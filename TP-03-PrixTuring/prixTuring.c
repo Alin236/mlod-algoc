@@ -57,10 +57,13 @@ int scanLineAsInt() {
 
 winner *readWinners(int);
 void printWinners(winner *, int);
-void freeWinners(winner *winners, int nbGagnants);
-void infosAnnee(int annee);
+void freeWinners(winner *, int);
+void infosAnnee(int);
 winner getWinnerByYear(winner *, int, int);
-void showWinner(winner winner);
+void showWinner(winner);
+void sortTuringWinnersByYear(winner *, int);
+int foundLatest(winner *, int);
+void exchangeLatest(winner *, int);
 
 int main(int argc, char *argv[])
 {
@@ -73,6 +76,8 @@ int main(int argc, char *argv[])
 		printf("%i\n",nbGagnants);
 
 		winner *winners = readWinners(nbGagnants);
+		if(argc == 2 && strcmp(argv[1], "sort") == 0)
+			sortTuringWinnersByYear(winners, nbGagnants);
 		printWinners(winners, nbGagnants);
 		freeWinners(winners, nbGagnants);
 	}
@@ -127,4 +132,30 @@ winner getWinnerByYear(winner *winners, int nbGagnants, int annee){
 void showWinner(winner winner){
 	printf("L'annee %i, le(s) gagnant(s) ont été : %s\n", winner.year, winner.name);
 	printf("Nature des travaux : %s\n", winner.field);
+}
+
+void sortTuringWinnersByYear(winner *winners, int nbGagnants){
+	if(nbGagnants == 1)
+		return;
+	int minIndex = foundLatest(winners, nbGagnants);
+	exchangeLatest(winners, minIndex);
+	sortTuringWinnersByYear(winners+1, nbGagnants-1);
+}
+
+int foundLatest(winner *winners, int nbGagnants){
+	int minYear = winners[0].year;
+	int minIndex = 0;
+	for(int i=0; i<nbGagnants; i++){
+		if(winners[i].year < minYear){
+			minYear = winners[i].year;
+			minIndex = i;
+		}	
+	}
+	return minIndex;
+}
+
+void exchangeLatest(winner *winners, int minIndex){
+	winner tmp = winners[0];
+	winners[0] = winners[minIndex];
+	winners[minIndex] = tmp;
 }
