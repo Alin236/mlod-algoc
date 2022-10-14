@@ -55,7 +55,10 @@ void detruireElement(Element e) {}
 // Détruit tous les éléments de la liste l
 // version itérative
 void detruire_i(Liste l) {
-	TODO;
+	while(!estVide(l))
+	{
+		detruireElement(l->val);
+	}
 }
 
 // version récursive
