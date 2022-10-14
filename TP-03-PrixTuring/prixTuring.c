@@ -62,17 +62,20 @@ void infosAnnee(int annee);
 winner getWinnerByYear(winner *, int, int);
 void showWinner(winner winner);
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	if(argc == 3 && strcmp(argv[1], "infosAnnee") == 0){
+		int annee = atoi(argv[2]);
+		infosAnnee(annee);
+	}
+	else{
+		int nbGagnants = scanLineAsInt();
+		printf("%i\n",nbGagnants);
 
-	int nbGagnants = scanLineAsInt();
-	printf("%i\n",nbGagnants);
-
-	winner *winners = readWinners(nbGagnants);
-	//printWinners(winners, nbGagnants);
-	freeWinners(winners, nbGagnants);
-	printf("main");
-
+		winner *winners = readWinners(nbGagnants);
+		printWinners(winners, nbGagnants);
+		freeWinners(winners, nbGagnants);
+	}
 	return EXIT_SUCCESS;
 }
 
@@ -115,13 +118,13 @@ winner getWinnerByYear(winner *winners, int nbGagnants, int annee){
 		}
 	}
 	winner winner;
-	winner.year = 404;
+	winner.year = annee;
 	winner.name = "not found";
 	winner.field = "not found";
 	return winner;
 }
 
 void showWinner(winner winner){
-	printf("L'annee %i, le(s) gagnant(s) ont été : %s", winner.year, winner.name);
-	printf("Nature des travaux : %s", winner.field);
+	printf("L'annee %i, le(s) gagnant(s) ont été : %s\n", winner.year, winner.name);
+	printf("Nature des travaux : %s\n", winner.field);
 }
