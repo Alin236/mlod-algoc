@@ -4,3 +4,8 @@
 
 *.exe
 *.out
+
+main
+out.txt
+prixTuring
+sortedTuringWinners.txt
