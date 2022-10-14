@@ -58,6 +58,9 @@ int scanLineAsInt() {
 winner *readWinners(int);
 void printWinners(winner *, int);
 void freeWinners(winner *winners, int nbGagnants);
+void infosAnnee(int annee);
+winner getWinnerByYear(winner *, int, int);
+void showWinner(winner winner);
 
 int main(void)
 {
@@ -66,8 +69,9 @@ int main(void)
 	printf("%i\n",nbGagnants);
 
 	winner *winners = readWinners(nbGagnants);
-	printWinners(winners, nbGagnants);
+	//printWinners(winners, nbGagnants);
 	freeWinners(winners, nbGagnants);
+	printf("main");
 
 	return EXIT_SUCCESS;
 }
@@ -96,3 +100,28 @@ void freeWinners(winner *winners, int nbGagnants){
 	free(winners);
 }
 
+void infosAnnee(int annee){
+	int nbGagnants = scanLineAsInt();
+	winner *winners = readWinners(nbGagnants);
+	winner winner = getWinnerByYear(winners, nbGagnants, annee);
+	freeWinners(winners, nbGagnants);
+	showWinner(winner);
+}
+
+winner getWinnerByYear(winner *winners, int nbGagnants, int annee){
+	for(int i = 0; i<nbGagnants; i++){
+		if(winners[i].year == annee){
+			return winners[i];
+		}
+	}
+	winner winner;
+	winner.year = 404;
+	winner.name = "not found";
+	winner.field = "not found";
+	return winner;
+}
+
+void showWinner(winner winner){
+	printf("L'annee %i, le(s) gagnant(s) ont été : %s", winner.year, winner.name);
+	printf("Nature des travaux : %s", winner.field);
+}
