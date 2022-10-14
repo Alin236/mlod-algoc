@@ -63,7 +63,10 @@ void detruire_i(Liste l) {
 
 // version récursive
 void detruire_r(Liste l) {
-	TODO;
+	if(!estVide(l)){
+		detruireElement(l->val);
+		detruire_r(l->suiv);
+	}
 }
 
 // retourne la liste dans laquelle l'élément v a été ajouté en fin
