@@ -36,9 +36,9 @@ void afficheElement(Element e) {
 // Attention la liste peut être vide !
 // version itérative
 void afficheListe_i(Liste l) {
-	while(!estVide(l))
-	{
+	while(!estVide(l)){
 		afficheElement(l->val);
+		l = l->suiv;
 	}
 }
 
@@ -55,9 +55,9 @@ void detruireElement(Element e) {}
 // Détruit tous les éléments de la liste l
 // version itérative
 void detruire_i(Liste l) {
-	while(!estVide(l))
-	{
+	while(!estVide(l)){
 		detruireElement(l->val);
+		l = l->suiv;
 	}
 }
 
