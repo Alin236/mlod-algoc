@@ -96,7 +96,10 @@ bool equalsElement(Element e1, Element e2){
 // Retourne un pointeur sur l'élément de la liste l contenant la valeur v ou NULL
 // version itérative
 Liste cherche_i(Element v,Liste l) {
-	return TODO;
+	while(!estVide(l) && !equalsElement(v, l->val)){
+		l = l->suiv;
+	}
+	return l;
 }
 
 // version récursive
