@@ -64,6 +64,8 @@ void showWinner(winner);
 void sortTuringWinnersByYear(winner *, int);
 int foundLatest(winner *, int);
 void exchangeLatest(winner *, int);
+winner *addNewWinner(int);
+void scanNewWinner(winner *);
 
 int main(int argc, char *argv[])
 {
@@ -75,7 +77,15 @@ int main(int argc, char *argv[])
 		int nbGagnants = scanLineAsInt();
 		printf("%i\n",nbGagnants);
 
-		winner *winners = readWinners(nbGagnants);
+		winner *winners;
+		if(argc == 2 && strcmp(argv[1], "addNewWinner") == 0){
+			winners = addNewWinner(nbGagnants);
+			nbGagnants++;
+			argv[1] = "sort";
+		}
+		else{
+			winners = readWinners(nbGagnants);
+		}
 		if(argc == 2 && strcmp(argv[1], "sort") == 0)
 			sortTuringWinnersByYear(winners, nbGagnants);
 		printWinners(winners, nbGagnants);
@@ -85,7 +95,7 @@ int main(int argc, char *argv[])
 }
 
 winner *readWinners(int nbGagnants){
-	winner *winners = malloc(50*sizeof(winner));
+	winner *winners = malloc(nbGagnants*sizeof(winner));
 	for(int i=0; i<nbGagnants; i++){
 		winners[i].year = scanLineAsInt();
 		winners[i].name = scanLine();
@@ -106,6 +116,7 @@ void freeWinners(winner *winners, int nbGagnants){
 		free(winners[i].field);
 	}
 	free(winners);
+	winners = NULL;
 }
 
 void infosAnnee(int annee){
@@ -158,4 +169,24 @@ void exchangeLatest(winner *winners, int minIndex){
 	winner tmp = winners[0];
 	winners[0] = winners[minIndex];
 	winners[minIndex] = tmp;
+}
+
+winner *addNewWinner(int nbGagnants){
+	winner *winners = malloc((nbGagnants+1)*sizeof(winner));
+	for(int i=0; i<nbGagnants; i++){
+		winners[i].year = scanLineAsInt();
+		winners[i].name = scanLine();
+		winners[i].field = scanLine();
+	}
+	scanNewWinner(&winners[nbGagnants]);
+	return winners;
+}
+
+void scanNewWinner(winner *winner){
+	printf("Entrer une annee : ");
+	scanf("%i", &(winner->year));
+	printf("Entrer le(s) gagnants : ");
+	scanf("%s", winner->name);
+	printf("Nature des travaux : ");
+	scanf("%s", winner->field);
 }
