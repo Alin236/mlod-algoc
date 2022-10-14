@@ -11,10 +11,11 @@ bool estVide(Liste l) {
 
 // créer une liste d'un seul élément contenant la valeur v
 Liste creer(Element v){
-	Liste l;
-	l = malloc(sizeof(Cellule));
-	l->val = v;
-	l->suiv = NULL;
+	Liste l = malloc(sizeof(Cellule));
+	if(l!=NULL){
+		l->val = v;
+		l->suiv = NULL;
+	}
 	return l;
 }
 
