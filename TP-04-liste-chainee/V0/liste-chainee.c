@@ -11,7 +11,10 @@ bool estVide(Liste l) {
 
 // créer une liste d'un seul élément contenant la valeur v
 Liste creer(Element v){
-	return TODO;
+	Liste l;
+	l->val = v;
+	l->suiv = NULL;
+	return l;
 }
 
 // ajoute l'élément v en tete de la liste l
