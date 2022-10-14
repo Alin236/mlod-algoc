@@ -44,7 +44,10 @@ void afficheListe_i(Liste l) {
 
 // version recursive
 void afficheListe_r(Liste l) {
-	TODO;
+	if(!estVide(l)){
+		afficheElement(l->val);
+		afficheListe_r(l->suiv);
+	}
 }
 
 void detruireElement(Element e) {}
