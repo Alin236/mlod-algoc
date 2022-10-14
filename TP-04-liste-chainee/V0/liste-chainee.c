@@ -72,11 +72,12 @@ void detruire_r(Liste l) {
 // retourne la liste dans laquelle l'élément v a été ajouté en fin
 // version itérative
 Liste ajoutFin_i(Element v, Liste l) {
+	Liste head = l;
 	while(!estVide(l)){
 		l = l->suiv;
 	}
 	l = creer(v);
-	return l;
+	return head;
 }
 
 // version recursive
@@ -85,7 +86,8 @@ Liste ajoutFin_r(Element v, Liste l) {
 		l = creer(v);
 		return(l);
 	}
-	return ajoutFin_r(v, l->suiv);
+	ajoutFin_r(v, l->suiv);
+	return l;
 }
 
 // compare deux elements
