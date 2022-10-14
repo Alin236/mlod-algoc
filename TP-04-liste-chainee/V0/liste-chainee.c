@@ -125,7 +125,11 @@ Liste retirePremier_r(Element v, Liste l) {
 
 
 void afficheEnvers_r(Liste l) {
-	TODO;
+	if(estVide(l)){
+		return;
+	}
+	afficheEnvers_r(l->suiv);
+	afficheElement(l->val);
 }
 
 
