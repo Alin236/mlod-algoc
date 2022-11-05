@@ -162,13 +162,25 @@ void afficheGDR_r(ArbreBinaire a){
 // retourne le noeud dont la valeur est minimum dans l'arbre
 // Suppose que a est un arbre binaire de recherche sans doublons
 ArbreBinaire min(ArbreBinaire a){
-	return NULL;
+	if(a == NULL){
+		return NULL;
+	}
+	while(a->filsGauche != NULL){
+		a = a->filsGauche;
+	}
+	return a;
 }
 
 // retourne le noeud dont la valeur est maximum dans l'arbre
 // Suppose que a est un arbre binaire de recherche sans doublons
 ArbreBinaire max(ArbreBinaire a){
-	return NULL;
+	if(a == NULL){
+		return NULL;
+	}
+	while(a->filsDroit != NULL){
+		a = a->filsDroit;
+	}
+	return a;
 }
 
 
