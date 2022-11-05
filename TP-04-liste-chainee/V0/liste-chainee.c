@@ -75,10 +75,12 @@ void detruire_r(Liste l) {
 // version itérative
 Liste ajoutFin_i(Element v, Liste l) {
 	Liste head = l;
-	while(!estVide(l)){
-		l = l->suiv;
+	if(!estVide(l)){
+		while(!estVide(l->suiv)){
+			l = l->suiv;
+		}
+		l->suiv = creer(v);
 	}
-	l = creer(v);
 	return head;
 }
 
