@@ -197,8 +197,36 @@ ArbreBinaire recherche_r(ArbreBinaire a, Element elem){
 // suppime x de a
 ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 {
-
-	return NULL;
+	if(a == NULL){
+		return NULL;
+	}
+	if(x == a->val){
+		if(a->filsGauche == NULL && a->filsDroit == NULL){
+			detruire_r(a);
+			return NULL;
+		}
+		ArbreBinaire filsRemplacant;
+		if(a->filsGauche == NULL){
+			filsRemplacant = a->filsDroit;
+		}
+		else if(a->filsDroit == NULL){
+			filsRemplacant = a->filsGauche;
+		}
+		else{
+			filsRemplacant = max(a->filsGauche);
+			ArbreBinaire papa = pere(a, filsRemplacant->val);
+			papa->filsDroit = NULL;
+		}
+		a->val = filsRemplacant->val;
+		a->filsGauche = filsRemplacant->filsGauche;
+		a->filsDroit = filsRemplacant->filsDroit;
+		filsRemplacant->filsGauche = NULL;
+		filsRemplacant->filsDroit = NULL;
+		detruire_r(filsRemplacant);
+		return NULL;
+	}
+	supprimer_r(x < a->val ? a->filsGauche : a->filsDroit, x);
+	return a;
 }
 
 void detruire_r(ArbreBinaire a){
