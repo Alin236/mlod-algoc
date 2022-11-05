@@ -188,6 +188,11 @@ ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 }
 
 void detruire_r(ArbreBinaire a){
-
+	if(a == NULL){
+		return;
+	}
+	detruire_r(a->filsGauche);
+	detruire_r(a->filsDroit);
+	free(a);
 }
 
