@@ -4,33 +4,69 @@
 
 // retourne TRUE si a est l'arbre vide et FALSE sinon
 bool estVide(ArbreBinaire a) {
-	return true;
+	bool valVide = a->val == NULL;
+	bool filsDroitVide = a->filsDroit == NULL;
+	bool filsGaucheVide = a->filsGauche == NULL;
+	return valVide && filsDroitVide && filsGaucheVide;
 }
 
 // initialise l'arbre a à l'arbre vide
 void initialiser(ArbreBinaire* a) {
+	*a = malloc(sizeof(Noeud));
+	if(*a!=NULL){
+		(*a)->filsDroit = NULL;
+		(*a)->filsGauche = NULL;
+	}
 }
 
 // créer un arbre contenant un seul noeud ayant la valeur e
 ArbreBinaire creer(Element e) {
-
-	return NULL;
+	ArbreBinaire a;
+	initialiser(&a);
+	a->val = e;
+	return a;
 }
 
 // insere e dans a sachant que a est un arbre binaire de recherche
 // si a contient déjà un element e, ce dernier n'est pas insérer afin d'éviter les doublons
 // version itérative
 ArbreBinaire insere_i(ArbreBinaire a, Element e) {
-
-	return NULL;
+	ArbreBinaire* p = &a;
+	while (*p != NULL && !estVide(*p) && e != (*p)->val){
+		if(e<(*p)->val){
+			p = &((*p)->filsGauche);
+		}
+		else{
+			p = &((*p)->filsDroit);
+		}
+	}
+	if(*p == NULL){
+		*p = creer(e);
+		return a;
+	}
+	(*p)->val = e;
+	return a;
 }	
 
 // insere e dans a sachant que a est un arbre binaire de recherche
 // si a contient déjà un element e, ce dernier n'est pas insérer afin d'éviter les doublons
 // version récursive
 ArbreBinaire insere_r(ArbreBinaire a, Element e) {
-	
-	return NULL;
+	if(a == NULL){
+		a = creer(e);
+		return a;
+	}
+	if(estVide(a) || e == a->val){
+		a->val = e;
+		return a;
+	}
+	if(e<a->val){
+		insere_r(a->filsGauche, e);
+	}
+	else{
+		insere_r(a->filsDroit, e);
+	}
+	return a;
 }
 
 // retourne le nombre de noeud contenus dans l'arbre a
