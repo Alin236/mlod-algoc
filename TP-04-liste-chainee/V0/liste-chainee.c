@@ -90,6 +90,10 @@ Liste ajoutFin_r(Element v, Liste l) {
 		l = creer(v);
 		return(l);
 	}
+	if(estVide(l->suiv)){
+		l->suiv = creer(v);
+		return(l);
+	}
 	ajoutFin_r(v, l->suiv);
 	return l;
 }
