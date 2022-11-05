@@ -71,16 +71,31 @@ ArbreBinaire insere_r(ArbreBinaire a, Element e) {
 
 // retourne le nombre de noeud contenus dans l'arbre a
 int nombreDeNoeud(ArbreBinaire a){
-
+	int nombreDeNoeudGauche;
+	int nombreDeNoeudDroit;
+	if(a == NULL){
 		return 0;
+	}
+	nombreDeNoeudGauche = nombreDeNoeud(a->filsGauche);
+	nombreDeNoeudDroit = nombreDeNoeud(a->filsDroit);
+	return nombreDeNoeudGauche + nombreDeNoeudDroit + 1;
 }
 
 
 // retourne la profondeur du noeud ayant la valeur e dans a
 // retourne -1 si a est vide ou si e n'est pas dans a
 int profondeur(ArbreBinaire a, Element e){
-
-		return 0;
+	int profond;
+	while (a != NULL && !estVide(a) && e != a->val){
+		if(e < a->val){
+			a = a->filsGauche;
+		}
+		else{
+			a = a->filsDroit;
+		}
+		profond++;
+	}
+	return profond;
 }
 
 // retourne la hauteur de l'arbre a
