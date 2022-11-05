@@ -100,7 +100,16 @@ int profondeur(ArbreBinaire a, Element e){
 
 // retourne la hauteur de l'arbre a
 int hauteur(ArbreBinaire a){
-	return 0;
+	int haut;
+	int hauteurFilsGauche;
+	int hauteurFilsDroit;
+	if(a == NULL){
+		return 0;
+	}
+	hauteurFilsGauche = hauteur(a->filsGauche);
+	hauteurFilsDroit = hauteur(a->filsDroit);
+	haut = (hauteurFilsGauche < hauteurFilsDroit ? hauteurFilsDroit : hauteurFilsGauche) + 1;
+	return haut;
 }
 
 // retourne le pere de elem dans l'arbre a ou NULL s'il n'existe pas
