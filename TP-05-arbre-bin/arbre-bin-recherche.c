@@ -136,12 +136,27 @@ ArbreBinaire pere(ArbreBinaire a, Element elem){
 
 
 void afficheRGD_r(ArbreBinaire a){
+	if(a != NULL && !estVide(a)){
+		afficheRGD_r(a->filsDroit);
+		afficheRGD_r(a->filsGauche);
+		printf("%i ", a->val);
+	}
 }
 
 void afficheGRD_r(ArbreBinaire a){
+	if(a != NULL && !estVide(a)){
+		afficheRGD_r(a->filsGauche);
+		afficheRGD_r(a->filsDroit);
+		printf("%i ", a->val);
+	}
 }
 
 void afficheGDR_r(ArbreBinaire a){
+	if(a != NULL && !estVide(a)){
+		afficheRGD_r(a->filsGauche);
+		printf("%i ", a->val);
+		afficheRGD_r(a->filsDroit);
+	}
 }
 
 // retourne le noeud dont la valeur est minimum dans l'arbre
