@@ -1,4 +1,4 @@
-#include "liste-chainee.h"
+#include "linkedList.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -26,11 +26,6 @@ Liste ajoutTete(Element v, Liste l) {
 	return newL;
 }
 
-
-void afficheElement(Element e) {
-	printf("%i ",e);
-}
-
 // affiche tous les éléments de la liste l
 // Attention, cette fonction doit être indépendante du type des éléments de la liste
 // utiliser une fonction annexe affiche_element
@@ -53,8 +48,6 @@ void afficheListe_r(Liste l) {
 	}
 	printf("\n");
 }
-
-void detruireElement(Element e) {}
 
 // Détruit tous les éléments de la liste l
 // version itérative
