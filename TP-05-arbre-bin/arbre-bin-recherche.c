@@ -187,8 +187,10 @@ ArbreBinaire max(ArbreBinaire a){
 // retourne l'arbre dont la valeur de la racine est elem et NULL si elem n'existe dans a 
 // version récursive
 ArbreBinaire recherche_r(ArbreBinaire a, Element elem){
-
-	return NULL;
+	if(a == NULL || elem == a->val){
+		return a;
+	}
+	return elem < a->val ? recherche_r(a->filsGauche, elem) : recherche_r(a->filsDroit, elem);
 }
 
 
