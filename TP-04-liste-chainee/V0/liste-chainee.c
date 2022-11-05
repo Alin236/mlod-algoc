@@ -49,7 +49,9 @@ void afficheListe_r(Liste l) {
 	if(!estVide(l)){
 		afficheElement(l->val);
 		afficheListe_r(l->suiv);
+		return;
 	}
+	printf("\n");
 }
 
 void detruireElement(Element e) {}
