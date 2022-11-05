@@ -146,7 +146,18 @@ Liste retirePremier_i(Element v, Liste l) {
 
 // version recursive
 Liste retirePremier_r(Element v, Liste l) {
-	return TODO;
+	if(estVide(l)){
+		return l;
+	}
+	if(equalsElement(v, l->val)){
+		return l->suiv;
+	}
+	if(equalsElement(v, l->suiv->val)){
+		l->suiv = l->suiv->suiv;
+		return l;
+	}
+	retirePremier_r(v, l->suiv);
+	return l;
 }
 
 
