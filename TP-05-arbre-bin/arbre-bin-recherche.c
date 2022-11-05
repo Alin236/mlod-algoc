@@ -4,7 +4,7 @@
 
 // retourne TRUE si a est l'arbre vide et FALSE sinon
 bool estVide(ArbreBinaire a) {
-	bool valVide = a->val == NULL;
+	bool valVide = 0;
 	bool filsDroitVide = a->filsDroit == NULL;
 	bool filsGaucheVide = a->filsGauche == NULL;
 	return valVide && filsDroitVide && filsGaucheVide;
@@ -14,6 +14,7 @@ bool estVide(ArbreBinaire a) {
 void initialiser(ArbreBinaire* a) {
 	*a = malloc(sizeof(Noeud));
 	if(*a!=NULL){
+		(*a)->val = 0;
 		(*a)->filsDroit = NULL;
 		(*a)->filsGauche = NULL;
 	}
