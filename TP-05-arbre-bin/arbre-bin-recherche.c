@@ -94,7 +94,7 @@ int nombreDeNoeud(ArbreBinaire a){
 // retourne la profondeur du noeud ayant la valeur e dans a
 // retourne -1 si a est vide ou si e n'est pas dans a
 int profondeur(ArbreBinaire a, Element e){
-	int profond;
+	int profond = 0;
 	while (a != NULL && !estVide(a) && e != a->val){
 		if(e < a->val){
 			a = a->filsGauche;
