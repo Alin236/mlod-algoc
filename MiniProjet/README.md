@@ -9,6 +9,8 @@ Les modifications que je souhaite apporter sont :
 
 # Comment compiler
 
+clang -o arkanoid arkanoid.c -Wall -std=c11 /home/bot/Raylib.git/src/libraylib.a -lm -lGL -lX11 -ldl -lpthread -lrt
+
 # Comment exécuter
 
 # Comment utiliser le projet
