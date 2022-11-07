@@ -87,6 +87,7 @@ Liste ajoutFin_i(Element v, Liste l) {
 }
 
 // version recursive
+/*
 Liste ajoutFin_r(Element v, Liste l) {
 	if(estVide(l)){
 		l = creer(v);
@@ -97,6 +98,14 @@ Liste ajoutFin_r(Element v, Liste l) {
 		return(l);
 	}
 	ajoutFin_r(v, l->suiv);
+	return l;
+}
+*/
+Liste ajoutFin_r(Element v, Liste l){
+	if(estVide(l))
+		return creer(v);
+	else
+		l->suiv=ajoutFin_r(v, l->suiv);
 	return l;
 }
 
