@@ -4,7 +4,7 @@
 
 // retourne TRUE si a est l'arbre vide et FALSE sinon
 bool estVide(ArbreBinaire a) {
-	bool valVide = 0;
+	bool valVide = a->val == 0;
 	bool filsDroitVide = a->filsDroit == NULL;
 	bool filsGaucheVide = a->filsGauche == NULL;
 	return valVide && filsDroitVide && filsGaucheVide;
@@ -62,9 +62,17 @@ ArbreBinaire insere_r(ArbreBinaire a, Element e) {
 		return a;
 	}
 	if(e<a->val){
+		if(a->filsGauche == NULL){
+			a->filsGauche = creer(e);
+			return a;
+		}
 		insere_r(a->filsGauche, e);
 	}
 	else{
+		if(a->filsDroit == NULL){
+			a->filsDroit = creer(e);
+			return a;
+		}
 		insere_r(a->filsDroit, e);
 	}
 	return a;
