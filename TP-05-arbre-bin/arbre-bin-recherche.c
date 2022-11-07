@@ -209,12 +209,12 @@ ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 	if(a == NULL){
 		return NULL;
 	}
+	ArbreBinaire filsRemplacant;
 	if(x == a->val){
 		if(a->filsGauche == NULL && a->filsDroit == NULL){
 			detruire_r(a);
 			return NULL;
 		}
-		ArbreBinaire filsRemplacant;
 		if(a->filsGauche == NULL){
 			filsRemplacant = a->filsDroit;
 		}
@@ -223,8 +223,10 @@ ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 		}
 		else{
 			filsRemplacant = max(a->filsGauche);
-			ArbreBinaire papa = pere(a, filsRemplacant->val);
+			ArbreBinaire papa = pere(a->filsGauche, filsRemplacant->val);
 			papa->filsDroit = NULL;
+			filsRemplacant->filsGauche = a->filsGauche;
+			filsRemplacant->filsDroit = a->filsDroit;
 		}
 		a->val = filsRemplacant->val;
 		a->filsGauche = filsRemplacant->filsGauche;
@@ -232,9 +234,46 @@ ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 		filsRemplacant->filsGauche = NULL;
 		filsRemplacant->filsDroit = NULL;
 		detruire_r(filsRemplacant);
+		return a;
+	}
+	ArbreBinaire fils;
+	fils = x < a->val ? a->filsGauche : a->filsDroit;
+	if(fils == NULL){
 		return NULL;
 	}
-	supprimer_r(x < a->val ? a->filsGauche : a->filsDroit, x);
+	if(x == fils->val){
+		if(fils->filsGauche == NULL && fils->filsDroit == NULL){
+			if(fils == a->filsGauche){
+				a->filsGauche = NULL;
+			}
+			else{
+				a->filsDroit = NULL;
+			}
+			detruire_r(fils);
+			return a;
+		}
+		if(fils->filsGauche == NULL){
+			filsRemplacant = a->filsDroit;
+		}
+		else if(fils->filsDroit == NULL){
+			filsRemplacant = a->filsGauche;
+		}
+		else{
+			filsRemplacant = max(a->filsGauche);
+			ArbreBinaire papa = pere(a, filsRemplacant->val);
+			papa->filsDroit = NULL;
+			filsRemplacant->filsGauche = fils->filsGauche;
+			filsRemplacant->filsDroit = fils->filsDroit;
+		}
+		fils->val = filsRemplacant->val;
+		fils->filsGauche = filsRemplacant->filsGauche;
+		fils->filsDroit = filsRemplacant->filsDroit;
+		filsRemplacant->filsGauche = NULL;
+		filsRemplacant->filsDroit = NULL;
+		detruire_r(filsRemplacant);
+		return a;
+	}
+	supprimer_r(fils, x);
 	return a;
 }
 
