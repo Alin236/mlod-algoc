@@ -50,28 +50,11 @@ ArbreBinaire insere_i(ArbreBinaire a, Element e) {
 // si a contient déjà un element e, ce dernier n'est pas insérer afin d'éviter les doublons
 // version récursive
 ArbreBinaire insere_r(ArbreBinaire a, Element e) {
-	if(estVide(a)){
-		a = creer(e);
+	if(estVide(a))
+		return creer(e);
+	if(e == a->val)
 		return a;
-	}
-	if(estVide(a) || e == a->val){
-		a->val = e;
-		return a;
-	}
-	if(e<a->val){
-		if(estVide(a->filsGauche)){
-			a->filsGauche = creer(e);
-			return a;
-		}
-		insere_r(a->filsGauche, e);
-	}
-	else{
-		if(estVide(a->filsDroit)){
-			a->filsDroit = creer(e);
-			return a;
-		}
-		insere_r(a->filsDroit, e);
-	}
+	e<a->val ? a->filsGauche = insere_r(a->filsGauche, e) : (a->filsDroit = insere_r(a->filsDroit, e));
 	return a;
 }
 
