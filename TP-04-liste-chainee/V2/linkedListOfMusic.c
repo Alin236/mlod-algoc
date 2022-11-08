@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct {
     char* name;
@@ -48,4 +49,8 @@ Music creerMusic(char* name, char* artist, char* album, char* genre, int discNum
     music->trackNumber = trackNumber;
     music->year = year;
     return music;
+}
+
+bool compareMusicYear(Music music1, Music music2){
+    return music1->year < music2->year;
 }
