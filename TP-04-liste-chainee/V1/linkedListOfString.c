@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 void afficheElement(Element e){
-    printf("%s ",e);
+    printf("%s ", (char *) e);
 }
 
 void detruireElement(Element e){}
