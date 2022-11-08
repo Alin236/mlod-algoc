@@ -4,7 +4,8 @@
 
 // valgrind --leak-check=yes --leak-check=full --show-leak-kinds=all --show-reachable=no ./mySpotify
 
-//#include "linkedListOfMusic.c"
+#include "../V1/linkedList.h"
+#include "linkedListOfMusic.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -29,7 +30,8 @@ int main(int argc, char *argv[]){
     char* copyOfLine;
     char *name, *artist, *album, *genre;
     int discNumber, trackNumber, year;
-    //Music music;
+    Music music;
+    Liste liste;
     while(fgets(nextLine, 255, file) != NULL){
         copyOfLine = strdup(nextLine);
         name = strsep(&copyOfLine, ",");
@@ -39,8 +41,11 @@ int main(int argc, char *argv[]){
         discNumber = atoi(strsep(&copyOfLine, ","));
         trackNumber = atoi(strsep(&copyOfLine, ","));
         year = atoi(strsep(&copyOfLine, ","));
-        printf("%s\n", name);
+        music = creerMusic(name, artist, album, genre, discNumber, trackNumber, year);
+        afficheElement(music);
+        liste = ajoutFin_i((void *) music, liste);
     }
+    afficheListe_r(liste);
 
     return EXIT_SUCCESS;
 }
