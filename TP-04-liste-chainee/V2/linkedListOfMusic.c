@@ -17,7 +17,11 @@ typedef MusicElement* Music;
 
 void afficheElement(Element e){
     Music music = (Music) e;
-    printf("%s,%s,%s,%s,%i,%i,%i\n", music->name, music->artist, music->album, music->genre, music->discNumber, music->trackNumber, music->year);
+    printf("%s,%s,%s,%s,", music->name, music->artist, music->album, music->genre);
+    if(music->discNumber != 0)
+        printf("%i", music->discNumber);
+    printf(",");
+    printf("%i,%i\n", music->trackNumber, music->year);
 }
 
 void detruireElement(Element e){
