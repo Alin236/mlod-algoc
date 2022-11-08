@@ -4,27 +4,22 @@
 
 // retourne TRUE si a est l'arbre vide et FALSE sinon
 bool estVide(ArbreBinaire a) {
-	bool valVide = a->val == 0;
-	bool filsDroitVide = a->filsDroit == NULL;
-	bool filsGaucheVide = a->filsGauche == NULL;
-	return valVide && filsDroitVide && filsGaucheVide;
+	return a == NULL;
 }
 
 // initialise l'arbre a à l'arbre vide
 void initialiser(ArbreBinaire* a) {
-	*a = malloc(sizeof(Noeud));
-	if(*a!=NULL){
-		(*a)->val = 0;
-		(*a)->filsDroit = NULL;
-		(*a)->filsGauche = NULL;
-	}
+	*a = NULL;
 }
 
 // créer un arbre contenant un seul noeud ayant la valeur e
 ArbreBinaire creer(Element e) {
-	ArbreBinaire a;
-	initialiser(&a);
-	a->val = e;
+	ArbreBinaire a = malloc(sizeof(Noeud));
+	if(a!=NULL){
+		a->val = e;
+		a->filsDroit = NULL;
+		a->filsGauche = NULL;
+	}
 	return a;
 }
 
@@ -33,7 +28,7 @@ ArbreBinaire creer(Element e) {
 // version itérative
 ArbreBinaire insere_i(ArbreBinaire a, Element e) {
 	ArbreBinaire* p = &a;
-	while (*p != NULL && !estVide(*p) && e != (*p)->val){
+	while (!estVide(*p) && e != (*p)->val){
 		if(e<(*p)->val){
 			p = &((*p)->filsGauche);
 		}
@@ -41,7 +36,7 @@ ArbreBinaire insere_i(ArbreBinaire a, Element e) {
 			p = &((*p)->filsDroit);
 		}
 	}
-	if(*p == NULL){
+	if(estVide(*p)){
 		*p = creer(e);
 		return a;
 	}
@@ -53,7 +48,7 @@ ArbreBinaire insere_i(ArbreBinaire a, Element e) {
 // si a contient déjà un element e, ce dernier n'est pas insérer afin d'éviter les doublons
 // version récursive
 ArbreBinaire insere_r(ArbreBinaire a, Element e) {
-	if(a == NULL){
+	if(estVide(a)){
 		a = creer(e);
 		return a;
 	}
@@ -62,14 +57,14 @@ ArbreBinaire insere_r(ArbreBinaire a, Element e) {
 		return a;
 	}
 	if(e<a->val){
-		if(a->filsGauche == NULL){
+		if(estVide(a->filsGauche)){
 			a->filsGauche = creer(e);
 			return a;
 		}
 		insere_r(a->filsGauche, e);
 	}
 	else{
-		if(a->filsDroit == NULL){
+		if(estVide(a->filsDroit)){
 			a->filsDroit = creer(e);
 			return a;
 		}
@@ -82,7 +77,7 @@ ArbreBinaire insere_r(ArbreBinaire a, Element e) {
 int nombreDeNoeud(ArbreBinaire a){
 	int nombreDeNoeudGauche;
 	int nombreDeNoeudDroit;
-	if(a == NULL){
+	if(estVide(a)){
 		return 0;
 	}
 	nombreDeNoeudGauche = nombreDeNoeud(a->filsGauche);
@@ -95,7 +90,7 @@ int nombreDeNoeud(ArbreBinaire a){
 // retourne -1 si a est vide ou si e n'est pas dans a
 int profondeur(ArbreBinaire a, Element e){
 	int profond = 1;
-	while (a != NULL && !estVide(a) && e != a->val){
+	while (!estVide(a) && e != a->val){
 		if(e < a->val){
 			a = a->filsGauche;
 		}
@@ -104,7 +99,7 @@ int profondeur(ArbreBinaire a, Element e){
 		}
 		profond++;
 	}
-	if(a == NULL || estVide(a)){
+	if(estVide(a)){
 		return -1;
 	}
 	return profond;
@@ -115,7 +110,7 @@ int hauteur(ArbreBinaire a){
 	int haut;
 	int hauteurFilsGauche;
 	int hauteurFilsDroit;
-	if(a == NULL){
+	if(estVide(a)){
 		return 0;
 	}
 	hauteurFilsGauche = hauteur(a->filsGauche);
@@ -129,18 +124,18 @@ ArbreBinaire pere(ArbreBinaire a, Element elem){
 	ArbreBinaire pere;
 	ArbreBinaire fils;
 	pere = a;
-	if(a == NULL){
+	if(estVide(a)){
 		return NULL;
 	}
 	if(elem == a->val){
 		return NULL;
 	}
 	fils = elem < pere->val ? pere->filsGauche : pere->filsDroit;
-	while(fils != NULL && !estVide(fils) && elem != fils->val ){
+	while(!estVide(fils) && elem != fils->val ){
 		pere = fils;
 		fils = elem < pere->val ? pere->filsGauche : pere->filsDroit;
 	}
-	if(fils == NULL || estVide(fils)){
+	if(estVide(fils)){
 		return NULL;
 	}
 	return pere;
@@ -148,7 +143,7 @@ ArbreBinaire pere(ArbreBinaire a, Element elem){
 
 
 void afficheRGD_r(ArbreBinaire a){
-	if(a != NULL && !estVide(a)){
+	if(!estVide(a)){
 		afficheRGD_r(a->filsDroit);
 		afficheRGD_r(a->filsGauche);
 		printf("%i ", a->val);
@@ -156,7 +151,7 @@ void afficheRGD_r(ArbreBinaire a){
 }
 
 void afficheGRD_r(ArbreBinaire a){
-	if(a != NULL && !estVide(a)){
+	if(!estVide(a)){
 		afficheRGD_r(a->filsGauche);
 		afficheRGD_r(a->filsDroit);
 		printf("%i ", a->val);
@@ -164,7 +159,7 @@ void afficheGRD_r(ArbreBinaire a){
 }
 
 void afficheGDR_r(ArbreBinaire a){
-	if(a != NULL && !estVide(a)){
+	if(!estVide(a)){
 		afficheRGD_r(a->filsGauche);
 		printf("%i ", a->val);
 		afficheRGD_r(a->filsDroit);
@@ -174,10 +169,10 @@ void afficheGDR_r(ArbreBinaire a){
 // retourne le noeud dont la valeur est minimum dans l'arbre
 // Suppose que a est un arbre binaire de recherche sans doublons
 ArbreBinaire min(ArbreBinaire a){
-	if(a == NULL){
+	if(estVide(a)){
 		return NULL;
 	}
-	while(a->filsGauche != NULL){
+	while(!estVide(a->filsGauche)){
 		a = a->filsGauche;
 	}
 	return a;
@@ -186,10 +181,10 @@ ArbreBinaire min(ArbreBinaire a){
 // retourne le noeud dont la valeur est maximum dans l'arbre
 // Suppose que a est un arbre binaire de recherche sans doublons
 ArbreBinaire max(ArbreBinaire a){
-	if(a == NULL){
+	if(estVide(a)){
 		return NULL;
 	}
-	while(a->filsDroit != NULL){
+	while(!estVide(a->filsDroit)){
 		a = a->filsDroit;
 	}
 	return a;
@@ -199,7 +194,7 @@ ArbreBinaire max(ArbreBinaire a){
 // retourne l'arbre dont la valeur de la racine est elem et NULL si elem n'existe dans a 
 // version récursive
 ArbreBinaire recherche_r(ArbreBinaire a, Element elem){
-	if(a == NULL || elem == a->val){
+	if(estVide(a) || elem == a->val){
 		return a;
 	}
 	return elem < a->val ? recherche_r(a->filsGauche, elem) : recherche_r(a->filsDroit, elem);
@@ -209,7 +204,7 @@ ArbreBinaire recherche_r(ArbreBinaire a, Element elem){
 // suppime x de a
 ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 {
-	if(a == NULL){
+	if(estVide(a)){
 		return NULL;
 	}
 	ArbreBinaire filsRemplacant;
@@ -281,7 +276,7 @@ ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 }
 
 void detruire_r(ArbreBinaire a){
-	if(a == NULL){
+	if(estVide(a)){
 		return;
 	}
 	detruire_r(a->filsGauche);
