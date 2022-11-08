@@ -124,25 +124,25 @@ ArbreBinaire pere(ArbreBinaire a, Element elem){
 
 void afficheRGD_r(ArbreBinaire a){
 	if(!estVide(a)){
-		afficheRGD_r(a->filsDroit);
-		afficheRGD_r(a->filsGauche);
 		printf("%i ", a->val);
+		afficheRGD_r(a->filsGauche);
+		afficheRGD_r(a->filsDroit);
 	}
 }
 
 void afficheGRD_r(ArbreBinaire a){
 	if(!estVide(a)){
-		afficheRGD_r(a->filsGauche);
-		afficheRGD_r(a->filsDroit);
+		afficheGRD_r(a->filsGauche);
 		printf("%i ", a->val);
+		afficheGRD_r(a->filsDroit);
 	}
 }
 
 void afficheGDR_r(ArbreBinaire a){
 	if(!estVide(a)){
-		afficheRGD_r(a->filsGauche);
+		afficheGDR_r(a->filsGauche);
+		afficheGDR_r(a->filsDroit);
 		printf("%i ", a->val);
-		afficheRGD_r(a->filsDroit);
 	}
 }
 
