@@ -184,74 +184,33 @@ ArbreBinaire recherche_r(ArbreBinaire a, Element elem){
 // suppime x de a
 ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 {
-	if(estVide(a)){
+	if(estVide(a))
 		return NULL;
-	}
 	ArbreBinaire filsRemplacant;
 	if(x == a->val){
-		if(a->filsGauche == NULL && a->filsDroit == NULL){
-			detruire_r(a);
+		if(estVide(a->filsGauche) && estVide(a->filsDroit))
 			return NULL;
-		}
-		if(a->filsGauche == NULL){
+		if(estVide(a->filsGauche)){
 			filsRemplacant = a->filsDroit;
+			free(a);
+			return a->filsDroit;
 		}
-		else if(a->filsDroit == NULL){
+		if(estVide(a->filsDroit)){
 			filsRemplacant = a->filsGauche;
+			free(a);
+			return filsRemplacant;
 		}
-		else{
-			filsRemplacant = max(a->filsGauche);
-			ArbreBinaire papa = pere(a->filsGauche, filsRemplacant->val);
-			papa->filsDroit = NULL;
+		filsRemplacant = max(a->filsGauche);
+		ArbreBinaire papa = pere(a->filsGauche, filsRemplacant->val);
+		if(!estVide(papa)){
 			filsRemplacant->filsGauche = a->filsGauche;
-			filsRemplacant->filsDroit = a->filsDroit;
-		}
-		a->val = filsRemplacant->val;
-		a->filsGauche = filsRemplacant->filsGauche;
-		a->filsDroit = filsRemplacant->filsDroit;
-		filsRemplacant->filsGauche = NULL;
-		filsRemplacant->filsDroit = NULL;
-		detruire_r(filsRemplacant);
-		return a;
-	}
-	ArbreBinaire fils;
-	fils = x < a->val ? a->filsGauche : a->filsDroit;
-	if(fils == NULL){
-		return NULL;
-	}
-	if(x == fils->val){
-		if(fils->filsGauche == NULL && fils->filsDroit == NULL){
-			if(fils == a->filsGauche){
-				a->filsGauche = NULL;
-			}
-			else{
-				a->filsDroit = NULL;
-			}
-			detruire_r(fils);
-			return a;
-		}
-		if(fils->filsGauche == NULL){
-			filsRemplacant = a->filsDroit;
-		}
-		else if(fils->filsDroit == NULL){
-			filsRemplacant = a->filsGauche;
-		}
-		else{
-			filsRemplacant = max(a->filsGauche);
-			ArbreBinaire papa = pere(a, filsRemplacant->val);
 			papa->filsDroit = NULL;
-			filsRemplacant->filsGauche = fils->filsGauche;
-			filsRemplacant->filsDroit = fils->filsDroit;
 		}
-		fils->val = filsRemplacant->val;
-		fils->filsGauche = filsRemplacant->filsGauche;
-		fils->filsDroit = filsRemplacant->filsDroit;
-		filsRemplacant->filsGauche = NULL;
-		filsRemplacant->filsDroit = NULL;
-		detruire_r(filsRemplacant);
-		return a;
+		filsRemplacant->filsDroit = a->filsDroit;
+		free(a);
+		return filsRemplacant;
 	}
-	supprimer_r(fils, x);
+	x < a->val ? a->filsGauche = supprimer_r(a->filsGauche, x) : (a->filsDroit = supprimer_r(a->filsDroit, x));
 	return a;
 }
 
