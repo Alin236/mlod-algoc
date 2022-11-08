@@ -6,10 +6,21 @@
 
 #include "../V1/linkedList.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 
+int main(int argc, char *argv[]){
+    char* fileName = "music.csv";
+    if(argc == 2){
+		fileName = argv[1];
+	}
 
-int main(){
+    FILE* f;
+    f = fopen(fileName,"r");
+    if(f==NULL) {
+        printf ("Erreur ouverture du fichier\n");
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
