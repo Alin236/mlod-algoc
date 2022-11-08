@@ -109,20 +109,15 @@ ArbreBinaire pere(ArbreBinaire a, Element elem){
 	ArbreBinaire pere;
 	ArbreBinaire fils;
 	pere = a;
-	if(estVide(a)){
+	if(estVide(a) || elem == a->val)
 		return NULL;
-	}
-	if(elem == a->val){
-		return NULL;
-	}
 	fils = elem < pere->val ? pere->filsGauche : pere->filsDroit;
 	while(!estVide(fils) && elem != fils->val ){
 		pere = fils;
 		fils = elem < pere->val ? pere->filsGauche : pere->filsDroit;
 	}
-	if(estVide(fils)){
+	if(estVide(fils))
 		return NULL;
-	}
 	return pere;
 }
 
