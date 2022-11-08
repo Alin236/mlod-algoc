@@ -1,5 +1,6 @@
-// clang -W -Wall -std=c99 linkedListOfString.c main.c -o main
-// clang -W -Wall -Wno-unused-parameter -std=c99 linkedListOfString.c main.c -o main
+// clang -W -Wall -std=c99 linkedListOfString.c linkedList.c main.c -o main
+// clang -W -Wall -Wno-unused-parameter -std=c99 linkedListOfString.c linkedList.c main.c -o main
+// valgrind --leak-check=yes --leak-check=full --show-leak-kinds=all --show-reachable=no ./main
 
 #include "linkedList.h"
 #include <stdlib.h>
