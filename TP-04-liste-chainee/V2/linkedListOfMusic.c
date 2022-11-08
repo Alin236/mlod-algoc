@@ -14,7 +14,10 @@ typedef struct {
 
 typedef MusicElement* Music;
 
-void afficheElement(Element e){}
+void afficheElement(Element e){
+    Music music = (Music) e;
+    printf("(%s, %s, %s, %s, %i, %i, %i)", music->name, music->artist, music->album, music->genre, music->discNumber, music->trackNumber, music->year);
+}
 
 void detruireElement(Element e){}
 
@@ -29,4 +32,5 @@ Music creerMusic(char* name, char* artist, char* album, char* genre, int discNum
     music->discNumber = discNumber;
     music->trackNumber = trackNumber;
     music->year = year;
+    return music;
 }
