@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
         music = creerMusic(name, artist, album, genre, discNumber, trackNumber, year);
         liste = ajoutFin_i((void *) music, liste);
     }
-    printf("%s\n", columnTitle);
+    printf("%s", columnTitle);
     afficheListe_r(liste);
     return EXIT_SUCCESS;
 }
