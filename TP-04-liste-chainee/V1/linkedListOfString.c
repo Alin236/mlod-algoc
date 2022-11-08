@@ -1,5 +1,6 @@
-#include "linkedList.c"
+#include "linkedList.h"
 #include <string.h>
+#include <stdio.h>
 
 void afficheElement(Element e){
     printf("%s ",e);
