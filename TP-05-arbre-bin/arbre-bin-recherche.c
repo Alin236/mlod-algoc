@@ -27,20 +27,22 @@ ArbreBinaire creer(Element e) {
 // si a contient déjà un element e, ce dernier n'est pas insérer afin d'éviter les doublons
 // version itérative
 ArbreBinaire insere_i(ArbreBinaire a, Element e) {
-	ArbreBinaire* p = &a;
-	while (!estVide(*p) && e != (*p)->val){
-		if(e<(*p)->val){
-			p = &((*p)->filsGauche);
-		}
-		else{
-			p = &((*p)->filsDroit);
-		}
+	if(estVide(a)){
+		return creer(e);
 	}
-	if(estVide(*p)){
-		*p = creer(e);
-		return a;
+	ArbreBinaire pere = a;
+	ArbreBinaire fils = a;
+	while (!estVide(fils) && e != fils->val){
+		pere = fils;
+		fils = e < fils->val ? fils->filsGauche : fils->filsDroit;
+
 	}
-	(*p)->val = e;
+	if(estVide(fils)){
+		if(e < pere->val)
+			pere->filsGauche = creer(e);
+		else
+			pere->filsDroit = creer(e);
+	}
 	return a;
 }	
 
