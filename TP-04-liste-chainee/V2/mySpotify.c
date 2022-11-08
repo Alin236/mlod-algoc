@@ -2,6 +2,11 @@
 
 // clang -W -Wall -Wno-unused-parameter linkedListOfMusic.c ../V1/linkedList.c mySpotify.c -o mySpotify
 
+/*
+./mySpotify > out.txt
+diff out.txt music.csv
+*/
+
 // valgrind --leak-check=yes --leak-check=full --show-leak-kinds=all --show-reachable=no ./mySpotify
 
 #include "../V1/linkedList.h"
@@ -25,7 +30,8 @@ int main(int argc, char *argv[]){
     }
 
     char nextLine[250];
-    fgets(nextLine, 250, file);
+    fgets(nextLine, 255, file);
+    char* columnTitle = strdup(nextLine);
 
     char* copyOfLine;
     char *name, *artist, *album, *genre;
@@ -42,10 +48,9 @@ int main(int argc, char *argv[]){
         trackNumber = atoi(strsep(&copyOfLine, ","));
         year = atoi(strsep(&copyOfLine, ","));
         music = creerMusic(name, artist, album, genre, discNumber, trackNumber, year);
-        afficheElement(music);
         liste = ajoutFin_i((void *) music, liste);
     }
+    printf("%s\n", columnTitle);
     afficheListe_r(liste);
-
     return EXIT_SUCCESS;
 }
