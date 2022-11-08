@@ -154,6 +154,7 @@ Liste retirePremier_i(Element v, Liste l) {
 
 
 // version recursive
+/*
 Liste retirePremier_r(Element v, Liste l) {
 	Liste suivant;
 	if(estVide(l)){
@@ -173,7 +174,20 @@ Liste retirePremier_r(Element v, Liste l) {
 	retirePremier_r(v, l->suiv);
 	return l;
 }
-
+*/
+Liste retirePremier_r(Element v, Liste l) {
+	if(estVide(l)){
+		return l;
+	}
+	if(equalsElement(v, l->val)){
+		Liste suivant = l->suiv;
+		l->suiv = NULL;
+		free(l);
+		return suivant;
+	}
+	l->suiv = retirePremier_r(v, l->suiv);
+	return l;
+}
 
 void afficheEnvers_r(Liste l) {
 	if(estVide(l)){
