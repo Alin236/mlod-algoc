@@ -19,7 +19,9 @@ void afficheElement(Element e){
     printf("(%s, %s, %s, %s, %i, %i, %i)", music->name, music->artist, music->album, music->genre, music->discNumber, music->trackNumber, music->year);
 }
 
-void detruireElement(Element e){}
+void detruireElement(Element e){
+    free((Music) e);
+}
 
 bool equalsElement(Element e1, Element e2){}
 
