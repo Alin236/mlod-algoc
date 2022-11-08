@@ -188,8 +188,10 @@ ArbreBinaire supprimer_r(ArbreBinaire a,Element x)
 		return NULL;
 	ArbreBinaire filsRemplacant;
 	if(x == a->val){
-		if(estVide(a->filsGauche) && estVide(a->filsDroit))
+		if(estVide(a->filsGauche) && estVide(a->filsDroit)){
+			free(a);
 			return NULL;
+		}
 		if(estVide(a->filsGauche)){
 			filsRemplacant = a->filsDroit;
 			free(a);
