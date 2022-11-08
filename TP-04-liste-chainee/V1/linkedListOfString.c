@@ -9,5 +9,5 @@ void afficheElement(Element e){
 void detruireElement(Element e){}
 
 bool equalsElement(Element e1, Element e2){
-    return strcmp(e1, e2) == 0;
+    return strcmp((char *) e1, (char *) e2) == 0;
 }
