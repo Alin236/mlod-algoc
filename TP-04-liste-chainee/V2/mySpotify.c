@@ -3,9 +3,11 @@
 // clang -W -Wall -Wno-unused-parameter linkedListOfMusic.c ../V1/linkedList.c mySpotify.c -o mySpotify
 
 /*
-./mySpotify > out.txt
-diff out.txt music.csv
+./mySpotify > music.txt
+diff music.txt music.csv
 */
+
+// ./mySpotify sort > sortedMusic.txt
 
 // valgrind --leak-check=yes --leak-check=full --show-leak-kinds=all --show-reachable=no ./mySpotify
 
@@ -18,9 +20,6 @@ diff out.txt music.csv
 
 int main(int argc, char *argv[]){
     char* fileName = "music.csv";
-    if(argc == 2){
-		fileName = argv[1];
-	}
 
     FILE* file;
     file = fopen(fileName,"r");
@@ -51,6 +50,8 @@ int main(int argc, char *argv[]){
         liste = ajoutFin_i((void *) music, liste);
     }
     printf("%s", columnTitle);
+    if(argc == 2 && strcmp(argv[1], "sort") == 0)
+        liste = sortListeMusic(liste);
     afficheListe_r(liste);
     return EXIT_SUCCESS;
 }
