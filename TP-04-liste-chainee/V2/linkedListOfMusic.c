@@ -57,3 +57,21 @@ Music creerMusic(char* name, char* artist, char* album, char* genre, int discNum
 bool compareMusicYear(Music music1, Music music2){
     return music1->year < music2->year;
 }
+
+Liste insererMusicDansListeOrdonnee(Liste l, Music m){
+    if(estVide(l))
+        return creer(m);
+    if(compareMusicYear(l->val, m)){
+        l->suiv = insererMusicDansListeOrdonnee(l->suiv, m);
+        return l;
+    }
+    l = ajoutTete(m, l);
+    return l;
+}
+
+Liste sortListeMusic(Liste l){
+    if(estVide(l))
+        return l;
+    l = insererMusicDansListeOrdonnee(sortListeMusic(l->suiv), l->val);
+    return l;
+}
