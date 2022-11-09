@@ -1,5 +1,8 @@
-// clang -W -Wall linkedListOfMusic.c ../V1/linkedList.c mySpotify.c -o mySpotify
-
+/*
+clang -c linkedList.c
+clang -c linkedListOfMusic.c
+clang -W -Wall linkedListOfMusic.o linkedList.o mySpotify.c -o mySpotify
+*/
 /*
 ./mySpotify > music.txt
 diff music.txt music.csv
