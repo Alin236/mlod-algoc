@@ -25,7 +25,8 @@ void afficheElement(Element e){
 }
 
 void detruireElement(Element e){
-    free((Music) e);
+    Music music = (Music) e;
+    free(music);
 }
 
 bool equalsElement(Element e1, Element e2){

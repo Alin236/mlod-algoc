@@ -51,5 +51,6 @@ int main(int argc, char *argv[]){
     if(argc == 2 && strcmp(argv[1], "sort") == 0)
         liste = sortListeMusic(liste);
     afficheListe_r(liste);
+    detruire_r(liste);
     return EXIT_SUCCESS;
 }
