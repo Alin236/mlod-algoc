@@ -54,5 +54,7 @@ int main(int argc, char *argv[]){
         liste = sortListeMusic(liste);
     afficheListe_r(liste);
     detruire_r(liste);
+    free(columnTitle);
+    free(file);
     return EXIT_SUCCESS;
 }
