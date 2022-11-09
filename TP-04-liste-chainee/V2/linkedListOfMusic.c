@@ -3,18 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    char* name;
-    char* artist;
-    char* album;
-    char* genre;
-    int discNumber;
-    int trackNumber;
-    int year;
-} MusicElement;
-
-typedef MusicElement* Music;
-
 void afficheElement(Element e){
     Music music = (Music) e;
     printf("%s,%s,%s,%s,", music->name, music->artist, music->album, music->genre);
