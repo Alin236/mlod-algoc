@@ -1,7 +1,5 @@
 // clang -W -Wall linkedListOfMusic.c ../V1/linkedList.c mySpotify.c -o mySpotify
 
-// clang -W -Wall -Wno-unused-parameter linkedListOfMusic.c ../V1/linkedList.c mySpotify.c -o mySpotify
-
 /*
 ./mySpotify > music.txt
 diff music.txt music.csv
