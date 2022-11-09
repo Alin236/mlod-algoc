@@ -22,7 +22,6 @@ String string_new(char*);
 //bool string_estVide(String);
 void string_affiche_r(String);
 String string_creer(char*);
-String string_new_aux(char*, String);
 
 int main(){
 
@@ -33,18 +32,13 @@ int main(){
 }
 
 String string_new(char* c){
-    String s = NULL;
-    s = string_new_aux(c, s);
-    return s;
-}
-
-String string_new_aux(char* c, String s){
-    if(s == NULL){
-        s = string_creer(c);
-        return s;
+    String s = string_creer(c);
+    String suiv = s->next;
+    int totalSize = strlen(c);
+    for(int i=CHUNK_SIZE_MAX; i<totalSize; i+=CHUNK_SIZE_MAX){
+        suiv = string_creer(c+(i*CHUNK_SIZE_MAX));
+        suiv = suiv->next;
     }
-    int chunkSize = strlen(c) <= CHUNK_SIZE_MAX ? strlen(c) : CHUNK_SIZE_MAX;
-    s->next = string_new_aux(c+chunkSize, s);
     return s;
 }
 
