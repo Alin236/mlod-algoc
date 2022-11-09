@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdbool.h>
-#include "../V1/linkedList.h"
+#include "linkedList.h"
 
 typedef struct {
     char* name;
