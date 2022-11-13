@@ -288,7 +288,7 @@ void UpdateGame(void)
             // Player collision with enemy
             for (int i = 0; i < activeEnemies; i++)
             {
-                if (CheckCollisionRecs(player.rec, enemy[i].rec)) playerCollideWithEnemy(enemy+i);
+                if (enemy[i].active && CheckCollisionRecs(player.rec, enemy[i].rec)) playerCollideWithEnemy(enemy+i);
             }
 
             // Player collision with bonus
