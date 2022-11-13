@@ -23,8 +23,8 @@
 #define NUM_SHOOTS 50
 #define NUM_MAX_ENEMIES 50
 #define FIRST_WAVE 10
-#define SECOND_WAVE 20
-#define THIRD_WAVE 50
+#define SECOND_WAVE 5
+#define THIRD_WAVE 10
 
 #define NUM_BONUS 50
 
@@ -97,6 +97,7 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 
 void playerCollideWithEnemy(Enemy*);
 void playerCollideWithBonus(Bonus*);
+void generateEnemy();
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -163,17 +164,7 @@ void InitGame(void)
     player.life = 2;
 
     // Initialize enemies
-    for (int i = 0; i < NUM_MAX_ENEMIES; i++)
-    {
-        enemy[i].rec.width = 10;
-        enemy[i].rec.height = 10;
-        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
-        enemy[i].speed.x = 5;
-        enemy[i].speed.y = 5;
-        enemy[i].active = true;
-        enemy[i].color = GRAY;
-    }
+    generateEnemy();
 
     // Initialize shoots
     for (int i = 0; i < NUM_SHOOTS; i++)
@@ -235,6 +226,7 @@ void UpdateGame(void)
 
                         activeEnemies = SECOND_WAVE;
                         wave = SECOND;
+                        generateEnemy();
                         smooth = false;
                         alpha = 0.0f;
                     }
@@ -261,6 +253,7 @@ void UpdateGame(void)
 
                         activeEnemies = THIRD_WAVE;
                         wave = THIRD;
+                        generateEnemy();
                         smooth = false;
                         alpha = 0.0f;
                     }
@@ -473,4 +466,56 @@ void playerCollideWithEnemy(Enemy* enemy){
 void playerCollideWithBonus(Bonus* bonus){
     // Do a bonus
     bonus->active = false;
+}
+
+
+void generateEnemy(){
+    switch (wave)
+    {
+        case FIRST:
+            for (int i = 0; i < activeEnemies; i++)
+            {
+                enemy[i].rec.width = 10;
+                enemy[i].rec.height = 10;
+                enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
+                enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+                enemy[i].speed.x = 5;
+                enemy[i].speed.y = 5;
+                enemy[i].active = true;
+                enemy[i].color = GRAY;
+            }
+            break;
+        case SECOND:
+            for (int i = 0; i < activeEnemies; i++)
+            {
+                enemy[i].rec.width = 15;
+                enemy[i].rec.height = 5;
+                enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
+                enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+                enemy[i].speed.x = 5;
+                enemy[i].speed.y = 5;
+                enemy[i].active = true;
+                enemy[i].color = BLUE;
+            }
+            break;
+        case THIRD:
+            for (int i = 0; i < activeEnemies; i++)
+            {
+                enemy[i].rec.width = 30;
+                enemy[i].rec.height = 30;
+                enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
+                enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+                enemy[i].speed.x = 5;
+                enemy[i].speed.y = 5;
+                enemy[i].active = true;
+                enemy[i].color = GREEN;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void generateEnemyFirstWave(){
+    
 }
