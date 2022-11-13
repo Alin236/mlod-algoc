@@ -35,6 +35,7 @@ typedef struct Player{
     Rectangle rec;
     Vector2 speed;
     Color color;
+    int life;
 } Player;
 
 typedef struct Enemy{
@@ -83,6 +84,7 @@ static void DrawGame(void);         // Draw game (one frame)
 static void UnloadGame(void);       // Unload game
 static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 
+void playerCollideWith(Enemy*);
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -146,6 +148,7 @@ void InitGame(void)
     player.speed.x = 5;
     player.speed.y = 5;
     player.color = BLACK;
+    player.life = 2;
 
     // Initialize enemies
     for (int i = 0; i < NUM_MAX_ENEMIES; i++)
@@ -263,7 +266,7 @@ void UpdateGame(void)
             // Player collision with enemy
             for (int i = 0; i < activeEnemies; i++)
             {
-                if (CheckCollisionRecs(player.rec, enemy[i].rec)) gameOver = true;
+                if (CheckCollisionRecs(player.rec, enemy[i].rec)) playerCollideWith(enemy+i);
             }
 
              // Enemy behaviour
@@ -372,6 +375,7 @@ void DrawGame(void)
             }
 
             DrawText(TextFormat("%04i", score), 20, 20, 40, GRAY);
+            DrawText(TextFormat("Life : %i", player.life), 20, 60, 40, GRAY);
 
             if (victory) DrawText("YOU WIN", screenWidth/2 - MeasureText("YOU WIN", 40)/2, screenHeight/2 - 40, 40, BLACK);
 
@@ -393,4 +397,13 @@ void UpdateDrawFrame(void)
 {
     UpdateGame();
     DrawGame();
+}
+
+void playerCollideWith(Enemy* enemy){
+    player.life -= 1;
+    enemy->rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
+    enemy->rec.y = GetRandomValue(0, screenHeight - enemy->rec.height);
+    if(player.life == 0){
+        gameOver = true;
+    }
 }
