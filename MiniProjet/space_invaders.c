@@ -38,6 +38,7 @@ typedef struct Player{
     Vector2 speed;
     Color color;
     int life;
+    int shootCharge;
 } Player;
 
 typedef struct Enemy{
@@ -163,6 +164,7 @@ void InitGame(void)
     player.speed.y = 5;
     player.color = BLACK;
     player.life = 2;
+    player.shootCharge = 20;
 
     // Initialize enemies
     generateEnemy();
@@ -332,11 +334,11 @@ void UpdateGame(void)
             // Shoot initialization
             if (IsKeyDown(KEY_SPACE))
             {
-                shootRate += 5;
+                shootRate += 1;
 
                 for (int i = 0; i < NUM_SHOOTS; i++)
                 {
-                    if (!shoot[i].active && shootRate%20 == 0)
+                    if (!shoot[i].active && shootRate%player.shootCharge == 0)
                     {
                         shoot[i].rec.x = player.rec.x;
                         shoot[i].rec.y = player.rec.y + player.rec.height/4;
@@ -521,5 +523,4 @@ void generateEnemyFirstWave(){
 void enemyShooted(Enemy* enemy){
     enemy->active = false;
     enemiesKill++;
-    score += 100;
 }
