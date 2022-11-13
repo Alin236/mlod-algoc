@@ -322,7 +322,6 @@ void UpdateGame(void)
                                 shoot[i].active = false;
                                 enemy[j].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
                                 enemy[j].rec.y = GetRandomValue(0, screenHeight - enemy[j].rec.height);
-                                shootRate = 0;
                                 enemiesKill++;
                                 score += 100;
                             }
@@ -330,7 +329,6 @@ void UpdateGame(void)
                             if (shoot[i].rec.x + shoot[i].rec.width >= screenWidth)
                             {
                                 shoot[i].active = false;
-                                shootRate = 0;
                             }
                         }
                     }
