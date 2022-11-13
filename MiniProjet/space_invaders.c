@@ -46,6 +46,7 @@ typedef struct Enemy{
     Vector2 speed;
     bool active;
     Color color;
+    int life;
 } Enemy;
 
 typedef struct Shoot{
@@ -164,7 +165,7 @@ void InitGame(void)
     player.speed.y = 5;
     player.color = BLACK;
     player.life = 2;
-    player.shootCharge = 20;
+    player.shootCharge = 3;
 
     // Initialize enemies
     generateEnemy();
@@ -483,6 +484,7 @@ void generateEnemy(){
                 enemy[i].speed.y = 5;
                 enemy[i].active = true;
                 enemy[i].color = GRAY;
+                enemy[i].life = 1;
             }
             break;
         case SECOND:
@@ -495,7 +497,8 @@ void generateEnemy(){
                 enemy[i].speed.x = 5;
                 enemy[i].speed.y = 5;
                 enemy[i].active = true;
-                enemy[i].color = BLUE;
+                enemy[i].color = GRAY;
+                enemy[i].life = 1;
             }
             break;
         case THIRD:
@@ -508,7 +511,8 @@ void generateEnemy(){
                 enemy[i].speed.x = 5;
                 enemy[i].speed.y = 5;
                 enemy[i].active = true;
-                enemy[i].color = GREEN;
+                enemy[i].color = GRAY;
+                enemy[i].life = 5;
             }
             break;
         default:
@@ -521,6 +525,9 @@ void generateEnemyFirstWave(){
 }
 
 void enemyShooted(Enemy* enemy){
-    enemy->active = false;
-    enemiesKill++;
+    enemy->life--;
+    if(enemy->life == 0){
+        enemy->active = false;
+        enemiesKill++;
+    }
 }
