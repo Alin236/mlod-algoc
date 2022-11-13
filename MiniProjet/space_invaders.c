@@ -100,6 +100,9 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 void playerCollideWithEnemy(Enemy*);
 void playerCollideWithBonus(Bonus*);
 void generateEnemy();
+void generateEnemyFirstWave();
+void generateEnemySecondWave();
+void generateEnemyThirdWave();
 void enemyShooted(Enemy*);
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -474,46 +477,13 @@ void generateEnemy(){
     switch (wave)
     {
         case FIRST:
-            for (int i = 0; i < activeEnemies; i++)
-            {
-                enemy[i].rec.width = 10;
-                enemy[i].rec.height = 10;
-                enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-                enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
-                enemy[i].speed.x = 5;
-                enemy[i].speed.y = 5;
-                enemy[i].active = true;
-                enemy[i].color = GRAY;
-                enemy[i].life = 1;
-            }
+            generateEnemyFirstWave();
             break;
         case SECOND:
-            for (int i = 0; i < activeEnemies; i++)
-            {
-                enemy[i].rec.width = 15;
-                enemy[i].rec.height = 5;
-                enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-                enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
-                enemy[i].speed.x = 5;
-                enemy[i].speed.y = 5;
-                enemy[i].active = true;
-                enemy[i].color = GRAY;
-                enemy[i].life = 1;
-            }
+            generateEnemySecondeWave();
             break;
         case THIRD:
-            for (int i = 0; i < activeEnemies; i++)
-            {
-                enemy[i].rec.width = 30;
-                enemy[i].rec.height = 30;
-                enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-                enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
-                enemy[i].speed.x = 5;
-                enemy[i].speed.y = 5;
-                enemy[i].active = true;
-                enemy[i].color = GRAY;
-                enemy[i].life = 5;
-            }
+            generateEnemyThirdWave();
             break;
         default:
             break;
@@ -521,7 +491,48 @@ void generateEnemy(){
 }
 
 void generateEnemyFirstWave(){
-    
+    for (int i = 0; i < activeEnemies; i++)
+    {
+        enemy[i].rec.width = 10;
+        enemy[i].rec.height = 10;
+        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+        enemy[i].speed.x = 5;
+        enemy[i].speed.y = 5;
+        enemy[i].active = true;
+        enemy[i].color = GRAY;
+        enemy[i].life = 1;
+    }
+}
+
+void generateEnemySecondWave(){
+    for (int i = 0; i < activeEnemies; i++)
+    {
+        enemy[i].rec.width = 15;
+        enemy[i].rec.height = 5;
+        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+        enemy[i].speed.x = 5;
+        enemy[i].speed.y = 5;
+        enemy[i].active = true;
+        enemy[i].color = GRAY;
+        enemy[i].life = 1;
+    }
+}
+
+void generateEnemyThirdWave(){
+    for (int i = 0; i < activeEnemies; i++)
+    {
+        enemy[i].rec.width = 30;
+        enemy[i].rec.height = 30;
+        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+        enemy[i].speed.x = 5;
+        enemy[i].speed.y = 5;
+        enemy[i].active = true;
+        enemy[i].color = GRAY;
+        enemy[i].life = 5;
+    }
 }
 
 void enemyShooted(Enemy* enemy){
