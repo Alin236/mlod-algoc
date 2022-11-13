@@ -26,6 +26,8 @@
 #define SECOND_WAVE 20
 #define THIRD_WAVE 50
 
+#define NUM_BONUS 50
+
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
@@ -52,6 +54,14 @@ typedef struct Shoot{
     Color color;
 } Shoot;
 
+
+typedef struct Bonus{
+    Rectangle rec;
+    Vector2 speed;
+    bool active;
+    Color color;
+} Bonus;
+
 //------------------------------------------------------------------------------------
 // Global Variables Declaration
 //------------------------------------------------------------------------------------
@@ -75,6 +85,7 @@ static int activeEnemies = 0;
 static int enemiesKill = 0;
 static bool smooth = false;
 
+static Bonus bonus[NUM_BONUS] = { 0 };
 //------------------------------------------------------------------------------------
 // Module Functions Declaration (local)
 //------------------------------------------------------------------------------------
@@ -84,7 +95,8 @@ static void DrawGame(void);         // Draw game (one frame)
 static void UnloadGame(void);       // Unload game
 static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 
-void playerCollideWith(Enemy*);
+void playerCollideWithEnemy(Enemy*);
+void playerCollideWithBonus(Bonus*);
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -174,6 +186,19 @@ void InitGame(void)
         shoot[i].speed.y = 0;
         shoot[i].active = false;
         shoot[i].color = MAROON;
+    }
+
+    // Initialize bonus
+    for (int i = 0; i < NUM_BONUS; i++)
+    {
+        bonus[i].rec.x = 0;
+        bonus[i].rec.y = 0;
+        bonus[i].rec.width = 10;
+        bonus[i].rec.height = 10;
+        bonus[i].speed.x = 4;
+        bonus[i].speed.y = 0;
+        bonus[i].active = false;
+        bonus[i].color = GREEN;
     }
 }
 
@@ -266,7 +291,13 @@ void UpdateGame(void)
             // Player collision with enemy
             for (int i = 0; i < activeEnemies; i++)
             {
-                if (CheckCollisionRecs(player.rec, enemy[i].rec)) playerCollideWith(enemy+i);
+                if (CheckCollisionRecs(player.rec, enemy[i].rec)) playerCollideWithEnemy(enemy+i);
+            }
+
+            // Player collision with bonus
+            for (int i = 0; i < NUM_BONUS; i++)
+            {
+                if (bonus[i].active && CheckCollisionRecs(player.rec, bonus[i].rec)) playerCollideWithBonus(bonus+i);
             }
 
              // Enemy behaviour
@@ -280,6 +311,20 @@ void UpdateGame(void)
                     {
                         enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
                         enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+                    }
+                }
+            }
+
+            // Bonus behaviour
+            for (int i = 0; i < NUM_BONUS; i++)
+            {
+                if (bonus[i].active)
+                {
+                    bonus[i].rec.x -= bonus[i].speed.x;
+
+                    if (bonus[i].rec.x < 0)
+                    {
+                        bonus[i].active = false;
                     }
                 }
             }
@@ -323,6 +368,18 @@ void UpdateGame(void)
                             if (CheckCollisionRecs(shoot[i].rec, enemy[j].rec))
                             {
                                 shoot[i].active = false;
+                                if(GetRandomValue(1, 100) >= 75){
+                                    for (int k = 0; k < NUM_BONUS; k++)
+                                    {
+                                        if (!bonus[k].active && shootRate%20 == 0)
+                                        {
+                                            bonus[k].rec.x = enemy[j].rec.x;
+                                            bonus[k].rec.y = enemy[j].rec.y;
+                                            bonus[k].active = true;
+                                            break;
+                                        }
+                                    }
+                                }
                                 enemy[j].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
                                 enemy[j].rec.y = GetRandomValue(0, screenHeight - enemy[j].rec.height);
                                 enemiesKill++;
@@ -374,6 +431,11 @@ void DrawGame(void)
                 if (shoot[i].active) DrawRectangleRec(shoot[i].rec, shoot[i].color);
             }
 
+            for (int i = 0; i < NUM_BONUS; i++)
+            {
+                if (bonus[i].active) DrawRectangleRec(bonus[i].rec, bonus[i].color);
+            }
+
             DrawText(TextFormat("%04i", score), 20, 20, 40, GRAY);
             DrawText(TextFormat("Life : %i", player.life), 20, 60, 40, GRAY);
 
@@ -399,11 +461,16 @@ void UpdateDrawFrame(void)
     DrawGame();
 }
 
-void playerCollideWith(Enemy* enemy){
+void playerCollideWithEnemy(Enemy* enemy){
     player.life -= 1;
     enemy->rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
     enemy->rec.y = GetRandomValue(0, screenHeight - enemy->rec.height);
     if(player.life == 0){
         gameOver = true;
     }
+}
+
+void playerCollideWithBonus(Bonus* bonus){
+    // Do a bonus
+    bonus->active = false;
 }
