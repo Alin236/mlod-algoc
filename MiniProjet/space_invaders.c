@@ -98,6 +98,7 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 void playerCollideWithEnemy(Enemy*);
 void playerCollideWithBonus(Bonus*);
 void generateEnemy();
+void enemyShooted(Enemy*);
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -373,10 +374,7 @@ void UpdateGame(void)
                                         }
                                     }
                                 }
-                                enemy[j].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-                                enemy[j].rec.y = GetRandomValue(0, screenHeight - enemy[j].rec.height);
-                                enemiesKill++;
-                                score += 100;
+                                enemyShooted(enemy+j);
                             }
 
                             if (shoot[i].rec.x + shoot[i].rec.width >= screenWidth)
@@ -518,4 +516,10 @@ void generateEnemy(){
 
 void generateEnemyFirstWave(){
     
+}
+
+void enemyShooted(Enemy* enemy){
+    enemy->active = false;
+    enemiesKill++;
+    score += 100;
 }
