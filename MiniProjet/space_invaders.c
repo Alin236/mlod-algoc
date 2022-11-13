@@ -367,7 +367,7 @@ void UpdateGame(void)
                                 if(GetRandomValue(1, 100) >= 75){
                                     for (int k = 0; k < NUM_BONUS; k++)
                                     {
-                                        if (!bonus[k].active && shootRate%20 == 0)
+                                        if (!bonus[k].active)
                                         {
                                             bonus[k].rec.x = enemy[j].rec.x;
                                             bonus[k].rec.y = enemy[j].rec.y;
