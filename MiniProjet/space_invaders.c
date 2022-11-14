@@ -32,6 +32,7 @@
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
 typedef enum { FIRST = 0, SECOND, THIRD } EnemyWave;
+typedef enum { BASIC = 0, SPEEDY, TANKY } EnemyType;
 
 typedef struct Player{
     Rectangle rec;
@@ -48,6 +49,7 @@ typedef struct Enemy{
     bool active;
     Color color;
     int life;
+    EnemyType type;
 } Enemy;
 
 typedef struct Shoot{
@@ -507,6 +509,7 @@ void generateEnemyFirstWave(){
         enemy[i].active = true;
         enemy[i].color = GRAY;
         enemy[i].life = 1;
+        enemy[i].type = BASIC;
     }
 }
 
@@ -523,6 +526,7 @@ void generateEnemySecondWave(){
         enemy[i].active = true;
         enemy[i].color = GRAY;
         enemy[i].life = 1;
+        enemy[i].type = SPEEDY;
     }
 }
 
@@ -539,6 +543,7 @@ void generateEnemyThirdWave(){
         enemy[i].active = true;
         enemy[i].color = GRAY;
         enemy[i].life = 5;
+        enemy[i].type = TANKY;
     }
 }
 
