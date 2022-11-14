@@ -25,14 +25,15 @@
 #define FIRST_WAVE 10
 #define SECOND_WAVE 5
 #define THIRD_WAVE 10
+#define FOURTH_WAVE 5
 
 #define NUM_BONUS 50
 
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
-typedef enum { FIRST = 0, SECOND, THIRD } EnemyWave;
-typedef enum { BASIC = 0, SPEEDY, TANKY } EnemyType;
+typedef enum { FIRST = 0, SECOND, THIRD, FOURTH} EnemyWave;
+typedef enum { BASIC = 0, SPEEDY, TANKY, SNAKY } EnemyType;
 
 typedef struct Player{
     Rectangle rec;
@@ -105,6 +106,7 @@ void generateEnemy();
 void generateEnemyFirstWave();
 void generateEnemySecondWave();
 void generateEnemyThirdWave();
+void generateEnemyFourthWave();
 void enemyShooted(Enemy*);
 void mooveEnemy(Enemy*);
 bool checkCollisionWithEnemy(Rectangle, Enemy);
@@ -172,7 +174,7 @@ void InitGame(void)
     player.speed.y = 5;
     player.color = BLACK;
     player.life = 2;
-    player.shootCharge = 20;
+    player.shootCharge = 3;
 
     // Initialize enemies
     generateEnemy();
@@ -270,6 +272,33 @@ void UpdateGame(void)
                     }
                 } break;
                 case THIRD:
+                {
+                    if (!smooth)
+                    {
+                        alpha += 0.02f;
+
+                        if (alpha >= 1.0f) smooth = true;
+                    }
+
+                    if (smooth) alpha -= 0.02f;
+
+                    if (enemiesKill == activeEnemies)
+                    {
+                        enemiesKill = 0;
+
+                        for (int i = 0; i < activeEnemies; i++)
+                        {
+                            if (!enemy[i].active) enemy[i].active = true;
+                        }
+
+                        activeEnemies = FOURTH_WAVE;
+                        wave = FOURTH;
+                        generateEnemy();
+                        smooth = false;
+                        alpha = 0.0f;
+                    }
+                } break;
+                case FOURTH:
                 {
                     if (!smooth)
                     {
@@ -491,6 +520,8 @@ void generateEnemy(){
         case THIRD:
             generateEnemyThirdWave();
             break;
+        case FOURTH:
+            generateEnemyFourthWave();
         default:
             break;
     }
@@ -521,7 +552,7 @@ void generateEnemySecondWave(){
         enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
         enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
         enemy[i].numberRec = 1;
-        enemy[i].speed.x = 5;
+        enemy[i].speed.x = 10;
         enemy[i].speed.y = 5;
         enemy[i].active = true;
         enemy[i].color = GRAY;
@@ -540,6 +571,39 @@ void generateEnemyThirdWave(){
         enemy[i].numberRec = 1;
         enemy[i].speed.x = 5;
         enemy[i].speed.y = 5;
+        enemy[i].active = true;
+        enemy[i].color = GRAY;
+        enemy[i].life = 5;
+        enemy[i].type = TANKY;
+    }
+}
+
+void generateEnemyFourthWave(){
+    for (int i = 0; i < activeEnemies; i++)
+    {
+        enemy[i].rec[0].width = 20;
+        enemy[i].rec[0].height = 20;
+        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
+        enemy[i].rec[1].width = 15;
+        enemy[i].rec[1].height = 15;
+        enemy[i].rec[1].x = enemy[i].rec[0].x - 10;
+        enemy[i].rec[1].y = enemy[i].rec[0].y - 15;
+        enemy[i].rec[2].width = 15;
+        enemy[i].rec[2].height = 15;
+        enemy[i].rec[2].x = enemy[i].rec[0].x - 10;
+        enemy[i].rec[2].y = enemy[i].rec[0].y + 20;
+        enemy[i].rec[3].width = 10;
+        enemy[i].rec[3].height = 10;
+        enemy[i].rec[3].x = enemy[i].rec[1].x - 10;
+        enemy[i].rec[3].y = enemy[i].rec[1].y - 5;
+        enemy[i].rec[4].width = 10;
+        enemy[i].rec[4].height = 10;
+        enemy[i].rec[4].x = enemy[i].rec[2].x - 10;
+        enemy[i].rec[4].y = enemy[i].rec[2].y + 10;
+        enemy[i].numberRec = 5;
+        enemy[i].speed.x = 5;
+        enemy[i].speed.y = 0;
         enemy[i].active = true;
         enemy[i].color = GRAY;
         enemy[i].life = 5;
