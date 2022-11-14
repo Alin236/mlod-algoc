@@ -59,7 +59,11 @@ Utiliser la touche "K" comme "kill" pour tuer tous les ennemis restant de la vag
 
 # Quelques détails sur votre implémentation
 
+Tout le code modifié est contenu dans le fichier space_invaders.c
 
+Les 5 premières fonctions InitGame(void), UpdateGame, DrawGame, UnloadGame et UpdateDrawFrame sont des fonctions du jeux classiques raylib. Certaines de ces fonctions ont été modifié mais la structure général du code de ces fonctions a été gardée.
+
+Toutes les autres fonctions implémenter ensuite sont entièrement créer de 0. Ces fonctions peuvent être classées en 2 catégories, celles qui gèrent les ennemis et celles qui gèrent les bonus.
 
 # Extensions / améliorations possibles
 
