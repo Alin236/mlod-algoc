@@ -33,7 +33,7 @@
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
 typedef enum { FIRST = 0, SECOND, THIRD, FOURTH} EnemyWave;
-typedef enum { BASIC = 0, SPEEDY, TANKY, SNAKY } EnemyType;
+typedef enum { BASIC = 0, SPEEDY, TANKY, POULPY } EnemyType;
 
 typedef struct Player{
     Rectangle rec;
@@ -575,7 +575,7 @@ void generateEnemyFourthWave(){
     {
         enemy[i].rec[0].width = 20;
         enemy[i].rec[0].height = 20;
-        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy[i].rec[0].x = GetRandomValue(screenWidth - 1000, -30);
         enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
         enemy[i].rec[1].width = 15;
         enemy[i].rec[1].height = 15;
@@ -594,12 +594,12 @@ void generateEnemyFourthWave(){
         enemy[i].rec[4].x = enemy[i].rec[2].x - 10;
         enemy[i].rec[4].y = enemy[i].rec[2].y + 10;
         enemy[i].numberRec = 5;
-        enemy[i].speed.x = 5;
+        enemy[i].speed.x = -5;
         enemy[i].speed.y = 0;
         enemy[i].active = true;
         enemy[i].color = GRAY;
         enemy[i].life = 5;
-        enemy[i].type = TANKY;
+        enemy[i].type = POULPY;
     }
 }
 
@@ -616,10 +616,19 @@ void mooveEnemy(Enemy* enemy){
     float ancienY = enemy->rec[0].y;
     enemy->rec[0].x -= enemy->speed.x;
 
-    if (enemy->rec[0].x < 0)
-    {
-        enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
-        enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+    if(enemy->type == POULPY){
+        if (enemy->rec[0].x > screenWidth)
+        {
+            enemy->rec[0].x = GetRandomValue(screenWidth - 1000, -30);
+            enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+        }
+    }
+    else{
+    if (enemy->rec[0].x < -30)
+        {
+            enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+            enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+        }
     }
 
     float deltaX = enemy->rec[0].x - ancienX;
