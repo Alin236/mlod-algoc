@@ -585,7 +585,7 @@ void generateEnemyTanky(Enemy* enemy){
     enemy->rec[3].x = enemy->rec[1].x + 10;
     enemy->rec[3].y = enemy->rec[1].y + 5;
     enemy->numberRec = 4;
-    enemy->speed.x = 3;
+    enemy->speed.x = 2;
     enemy->speed.y = 0;
     enemy->active = true;
     enemy->color = GRAY;
