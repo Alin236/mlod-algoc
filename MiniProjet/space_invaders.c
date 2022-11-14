@@ -21,18 +21,19 @@
 // Some Defines
 //----------------------------------------------------------------------------------
 #define NUM_SHOOTS 50
-#define NUM_MAX_ENEMIES 15
+#define NUM_MAX_ENEMIES 30
 #define FIRST_WAVE 15
 #define SECOND_WAVE 10
 #define THIRD_WAVE 5
 #define FOURTH_WAVE 5
+#define FIFTH_WAVE 30
 
 #define NUM_BONUS 10
 
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
-typedef enum { FIRST = 0, SECOND, THIRD, FOURTH} EnemyWave;
+typedef enum { FIRST = 0, SECOND, THIRD, FOURTH, FIFTH} EnemyWave;
 typedef enum { BASICY = 0, SPEEDY, TANKY, POULPY } EnemyType;
 typedef enum { NONE = 0, SHOOT_RATE_UP, SPEED_UP, SHOOT_WIDTH_UP, SHIELD } BonusType;
 
@@ -326,6 +327,33 @@ void UpdateGame(void)
 
                     if (smooth) alpha -= 0.02f;
 
+                    if (enemiesKill == activeEnemies)
+                    {
+                        enemiesKill = 0;
+
+                        for (int i = 0; i < activeEnemies; i++)
+                        {
+                            if (!enemy[i].active) enemy[i].active = true;
+                        }
+
+                        activeEnemies = FIFTH_WAVE;
+                        wave = FIFTH;
+                        generateEnemy();
+                        smooth = false;
+                        alpha = 0.0f;
+                    }
+                } break;
+                case FIFTH:
+                {
+                    if (!smooth)
+                    {
+                        alpha += 0.02f;
+
+                        if (alpha >= 1.0f) smooth = true;
+                    }
+
+                    if (smooth) alpha -= 0.02f;
+
                     if (enemiesKill == activeEnemies) victory = true;
 
                 } break;
@@ -449,7 +477,8 @@ void DrawGame(void)
             if (wave == FIRST) DrawText("FIRST WAVE", screenWidth/2 - MeasureText("FIRST WAVE", 40)/2, screenHeight/2 - 40, 40, Fade(BLACK, alpha));
             else if (wave == SECOND) DrawText("SECOND WAVE", screenWidth/2 - MeasureText("SECOND WAVE", 40)/2, screenHeight/2 - 40, 40, Fade(BLACK, alpha));
             else if (wave == THIRD) DrawText("THIRD WAVE", screenWidth/2 - MeasureText("THIRD WAVE", 40)/2, screenHeight/2 - 40, 40, Fade(BLACK, alpha));
-            else if (wave == THIRD) DrawText("FOURTH WAVE", screenWidth/2 - MeasureText("FOURTH WAVE", 40)/2, screenHeight/2 - 40, 40, Fade(BLACK, alpha));
+            else if (wave == FOURTH) DrawText("FOURTH WAVE", screenWidth/2 - MeasureText("FOURTH WAVE", 40)/2, screenHeight/2 - 40, 40, Fade(BLACK, alpha));
+            else if (wave == FIFTH) DrawText("FINAL WAVE", screenWidth/2 - MeasureText("FINAL WAVE", 40)/2, screenHeight/2 - 40, 40, Fade(BLACK, alpha));
 
             for (int i = 0; i < activeEnemies; i++)
             {
@@ -467,7 +496,7 @@ void DrawGame(void)
             }
 
             DrawText(TextFormat("Enemies : %i/%i", enemiesKill, activeEnemies), 20, 20, 40, GRAY);
-            DrawText(TextFormat("Wave : %i/4", wave+1), 20, 60, 40, GRAY);
+            DrawText(TextFormat("Wave : %i/5", wave+1), 20, 60, 40, GRAY);
             DrawText(TextFormat("Life : %i", player.life), 20, screenHeight - 60, 40, GRAY);
 
             if (victory) DrawText("YOU WIN", screenWidth/2 - MeasureText("YOU WIN", 40)/2, screenHeight/2 - 40, 40, BLACK);
@@ -529,6 +558,11 @@ void generateEnemy(){
             case FOURTH:
                 generateEnemyPoulpy(enemy+i);
                 break;
+            case FIFTH:
+                if(i<10) generateEnemyBasicy(enemy+i);
+                else if(10<=i && i<20) generateEnemySpeedy(enemy+i);
+                else if(20<=i && i<25) generateEnemyTanky(enemy+i);
+                else if(25<=i && i<30) generateEnemyPoulpy(enemy+i);
             default:
                 break;
         }
