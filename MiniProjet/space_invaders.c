@@ -21,13 +21,13 @@
 // Some Defines
 //----------------------------------------------------------------------------------
 #define NUM_SHOOTS 50
-#define NUM_MAX_ENEMIES 50
-#define FIRST_WAVE 10
-#define SECOND_WAVE 5
-#define THIRD_WAVE 10
+#define NUM_MAX_ENEMIES 15
+#define FIRST_WAVE 15
+#define SECOND_WAVE 10
+#define THIRD_WAVE 5
 #define FOURTH_WAVE 5
 
-#define NUM_BONUS 50
+#define NUM_BONUS 10
 
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
