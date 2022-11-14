@@ -487,16 +487,7 @@ void UpdateDrawFrame(void)
 
 void playerCollideWithEnemy(Enemy* enemy){
     player.life -= 1;
-    float ancienX = enemy->rec[0].x;
-    float ancienY = enemy->rec[0].y;
-    enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
-    enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
-    float deltaX = enemy->rec[0].x - ancienX;
-    float deltaY = enemy->rec[0].y - ancienY;
-    for(int i=1; i<enemy->numberRec; i++){
-        enemy->rec[i].x += deltaX;
-        enemy->rec[i].y += deltaY;
-    }
+    enemyShooted(enemy);
     if(player.life == 0){
         gameOver = true;
     }
