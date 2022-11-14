@@ -34,6 +34,7 @@
 //----------------------------------------------------------------------------------
 typedef enum { FIRST = 0, SECOND, THIRD, FOURTH} EnemyWave;
 typedef enum { BASIC = 0, SPEEDY, TANKY, POULPY } EnemyType;
+typedef enum { SHOOT_RATE_UP = 0, SPEED_UP, SHOT_WIDTH_UP, SHIELD } BonusType;
 
 typedef struct Player{
     Rectangle rec;
@@ -41,6 +42,7 @@ typedef struct Player{
     Color color;
     int life;
     int shootCharge;
+    bool shild;
 } Player;
 
 typedef struct Enemy{
@@ -66,6 +68,7 @@ typedef struct Bonus{
     Vector2 speed;
     bool active;
     Color color;
+    BonusType type;
 } Bonus;
 
 //------------------------------------------------------------------------------------
@@ -111,6 +114,7 @@ void enemyShooted(Enemy*);
 void mooveEnemy(Enemy*);
 bool checkCollisionWithEnemy(Rectangle, Enemy);
 void drawAllRectangleEnemy(Enemy);
+void activateBonus(Bonus*);
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -174,7 +178,8 @@ void InitGame(void)
     player.speed.y = 5;
     player.color = BLACK;
     player.life = 2;
-    player.shootCharge = 3;
+    player.shootCharge = 20;
+    player.shild = false;
 
     // Initialize enemies
     generateEnemy();
@@ -182,10 +187,10 @@ void InitGame(void)
     // Initialize shoots
     for (int i = 0; i < NUM_SHOOTS; i++)
     {
-        shoot[i].rec.x = player.rec.x;
-        shoot[i].rec.y = player.rec.y + player.rec.height/4;
         shoot[i].rec.width = 10;
         shoot[i].rec.height = 5;
+        shoot[i].rec.x = player.rec.x;
+        shoot[i].rec.y = player.rec.y + (player.rec.height - shoot[i].rec.height)/2;
         shoot[i].speed.x = 7;
         shoot[i].speed.y = 0;
         shoot[i].active = false;
@@ -372,7 +377,7 @@ void UpdateGame(void)
                     if (!shoot[i].active && shootRate%player.shootCharge == 0)
                     {
                         shoot[i].rec.x = player.rec.x;
-                        shoot[i].rec.y = player.rec.y + player.rec.height/4;
+                        shoot[i].rec.y = player.rec.y + (player.rec.height - shoot[i].rec.height)/2;
                         shoot[i].active = true;
                         break;
                     }
@@ -487,7 +492,12 @@ void UpdateDrawFrame(void)
 }
 
 void playerCollideWithEnemy(Enemy* enemy){
-    player.life -= 1;
+    if(player.shild) {
+        player.shild = false;
+        player.color = BLACK;
+    }
+    else player.life -= 1;
+
     enemyShooted(enemy);
     if(player.life == 0){
         gameOver = true;
@@ -495,8 +505,8 @@ void playerCollideWithEnemy(Enemy* enemy){
 }
 
 void playerCollideWithBonus(Bonus* bonus){
-    // Do a bonus
     bonus->active = false;
+    activateBonus(bonus);
 }
 
 
@@ -650,4 +660,27 @@ bool checkCollisionWithEnemy(Rectangle rec, Enemy enemy){
 void drawAllRectangleEnemy(Enemy enemy){
     for(int i=0; i<enemy.numberRec; i++)
         DrawRectangleRec(enemy.rec[i], enemy.color);
+}
+
+void activateBonus(Bonus* bonus){
+    switch (bonus->type)
+    {
+        case SHOOT_RATE_UP:
+            player.shootCharge -= 4;
+            if(player.shootCharge < 4) player.shootCharge = 4;
+            break;
+        case SPEED_UP:
+            player.speed.x++;
+            player.speed.y++;
+            break;
+        case SHOT_WIDTH_UP:
+            for(int i=0; i<NUM_SHOOTS; i++)
+                shoot[i].rec.height +=2;
+            break;
+        case SHIELD:
+            player.shild = true;
+            player.color = BLUE;
+        default:
+            break;
+    }
 }
