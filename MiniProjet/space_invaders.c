@@ -42,7 +42,8 @@ typedef struct Player{
 } Player;
 
 typedef struct Enemy{
-    Rectangle rec;
+    Rectangle rec[5];
+    int numberRec;
     Vector2 speed;
     bool active;
     Color color;
@@ -103,6 +104,9 @@ void generateEnemyFirstWave();
 void generateEnemySecondWave();
 void generateEnemyThirdWave();
 void enemyShooted(Enemy*);
+void mooveEnemy(Enemy*);
+bool checkCollisionWithEnemy(Rectangle, Enemy);
+void drawAllRectangleEnemy(Enemy);
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -289,7 +293,7 @@ void UpdateGame(void)
             // Player collision with enemy
             for (int i = 0; i < activeEnemies; i++)
             {
-                if (enemy[i].active && CheckCollisionRecs(player.rec, enemy[i].rec)) playerCollideWithEnemy(enemy+i);
+                if (enemy[i].active && checkCollisionWithEnemy(player.rec, enemy[i])) playerCollideWithEnemy(enemy+i);
             }
 
             // Player collision with bonus
@@ -303,13 +307,7 @@ void UpdateGame(void)
             {
                 if (enemy[i].active)
                 {
-                    enemy[i].rec.x -= enemy[i].speed.x;
-
-                    if (enemy[i].rec.x < 0)
-                    {
-                        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-                        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
-                    }
+                    mooveEnemy(enemy+i);
                 }
             }
 
@@ -363,7 +361,7 @@ void UpdateGame(void)
                     {
                         if (enemy[j].active)
                         {
-                            if (CheckCollisionRecs(shoot[i].rec, enemy[j].rec))
+                            if (checkCollisionWithEnemy(shoot[i].rec, enemy[j]))
                             {
                                 shoot[i].active = false;
                                 if(GetRandomValue(1, 100) >= 75){
@@ -371,8 +369,8 @@ void UpdateGame(void)
                                     {
                                         if (!bonus[k].active)
                                         {
-                                            bonus[k].rec.x = enemy[j].rec.x;
-                                            bonus[k].rec.y = enemy[j].rec.y;
+                                            bonus[k].rec.x = enemy[j].rec[0].x;
+                                            bonus[k].rec.y = enemy[j].rec[0].y;
                                             bonus[k].active = true;
                                             break;
                                         }
@@ -418,7 +416,7 @@ void DrawGame(void)
 
             for (int i = 0; i < activeEnemies; i++)
             {
-                if (enemy[i].active) DrawRectangleRec(enemy[i].rec, enemy[i].color);
+                if (enemy[i].active) drawAllRectangleEnemy(enemy[i]);
             }
 
             for (int i = 0; i < NUM_SHOOTS; i++)
@@ -458,8 +456,16 @@ void UpdateDrawFrame(void)
 
 void playerCollideWithEnemy(Enemy* enemy){
     player.life -= 1;
-    enemy->rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-    enemy->rec.y = GetRandomValue(0, screenHeight - enemy->rec.height);
+    float ancienX = enemy->rec[0].x;
+    float ancienY = enemy->rec[0].y;
+    enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+    enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+    float deltaX = enemy->rec[0].x - ancienX;
+    float deltaY = enemy->rec[0].y - ancienY;
+    for(int i=1; i<enemy->numberRec; i++){
+        enemy->rec[i].x += deltaX;
+        enemy->rec[i].y += deltaY;
+    }
     if(player.life == 0){
         gameOver = true;
     }
@@ -491,10 +497,11 @@ void generateEnemy(){
 void generateEnemyFirstWave(){
     for (int i = 0; i < activeEnemies; i++)
     {
-        enemy[i].rec.width = 10;
-        enemy[i].rec.height = 10;
-        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+        enemy[i].rec[0].width = 10;
+        enemy[i].rec[0].height = 10;
+        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth - 1000);
+        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
+        enemy[i].numberRec = 1;
         enemy[i].speed.x = 5;
         enemy[i].speed.y = 5;
         enemy[i].active = true;
@@ -506,10 +513,11 @@ void generateEnemyFirstWave(){
 void generateEnemySecondWave(){
     for (int i = 0; i < activeEnemies; i++)
     {
-        enemy[i].rec.width = 15;
-        enemy[i].rec.height = 5;
-        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+        enemy[i].rec[0].width = 15;
+        enemy[i].rec[0].height = 5;
+        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
+        enemy[i].numberRec = 1;
         enemy[i].speed.x = 5;
         enemy[i].speed.y = 5;
         enemy[i].active = true;
@@ -521,10 +529,11 @@ void generateEnemySecondWave(){
 void generateEnemyThirdWave(){
     for (int i = 0; i < activeEnemies; i++)
     {
-        enemy[i].rec.width = 30;
-        enemy[i].rec.height = 30;
-        enemy[i].rec.x = GetRandomValue(screenWidth, screenWidth + 1000);
-        enemy[i].rec.y = GetRandomValue(0, screenHeight - enemy[i].rec.height);
+        enemy[i].rec[0].width = 30;
+        enemy[i].rec[0].height = 30;
+        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
+        enemy[i].numberRec = 1;
         enemy[i].speed.x = 5;
         enemy[i].speed.y = 5;
         enemy[i].active = true;
@@ -539,4 +548,36 @@ void enemyShooted(Enemy* enemy){
         enemy->active = false;
         enemiesKill++;
     }
+}
+
+void mooveEnemy(Enemy* enemy){
+    float ancienX = enemy->rec[0].x;
+    float ancienY = enemy->rec[0].y;
+    enemy->rec[0].x -= enemy->speed.x;
+
+    if (enemy->rec[0].x < 0)
+    {
+        enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+        enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+    }
+
+    float deltaX = enemy->rec[0].x - ancienX;
+    float deltaY = enemy->rec[0].y - ancienY;
+
+    for(int i=1; i<enemy->numberRec; i++){
+        enemy->rec[i].x += deltaX;
+        enemy->rec[i].y += deltaY;
+    }
+}
+
+bool checkCollisionWithEnemy(Rectangle rec, Enemy enemy){
+    for(int i=0; i<enemy.numberRec; i++){
+        if(CheckCollisionRecs(rec, enemy.rec[i])) return true;
+    }
+    return false;
+}
+
+void drawAllRectangleEnemy(Enemy enemy){
+    for(int i=0; i<enemy.numberRec; i++)
+        DrawRectangleRec(enemy.rec[i], enemy.color);
 }
