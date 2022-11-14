@@ -220,7 +220,7 @@ void UpdateGame(void)
     if (!gameOver)
     {
         if (IsKeyPressed('P')) pause = !pause;
-
+        
         if (!pause)
         {
             switch (wave)
@@ -559,16 +559,28 @@ void generateEnemySpeedy(Enemy* enemy){
 }
 
 void generateEnemyTanky(Enemy* enemy){
-    enemy->rec[0].width = 30;
-    enemy->rec[0].height = 30;
+    enemy->rec[0].width = 50;
+    enemy->rec[0].height = 50;
     enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
     enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
-    enemy->numberRec = 1;
-    enemy->speed.x = 5;
-    enemy->speed.y = 5;
+    enemy->rec[1].width = 10;
+    enemy->rec[1].height = 5;
+    enemy->rec[1].x = enemy->rec[0].x + 50;
+    enemy->rec[1].y = enemy->rec[0].y + (50-5)/2;
+    enemy->rec[2].width = 4;
+    enemy->rec[2].height = 4;
+    enemy->rec[2].x = enemy->rec[1].x + 10;
+    enemy->rec[2].y = enemy->rec[1].y - 4;
+    enemy->rec[3].width = 4;
+    enemy->rec[3].height = 4;
+    enemy->rec[3].x = enemy->rec[1].x + 10;
+    enemy->rec[3].y = enemy->rec[1].y + 5;
+    enemy->numberRec = 4;
+    enemy->speed.x = 3;
+    enemy->speed.y = 0;
     enemy->active = true;
     enemy->color = GRAY;
-    enemy->life = 5;
+    enemy->life = 20;
     enemy->type = TANKY;
     enemy->bonusType = addBonusToEnemy();
     if(enemy->bonusType != NONE) enemy->color = GOLD;
@@ -695,7 +707,7 @@ void generateBonus(BonusType bonusType, Enemy* enemy){
                     bonus[i].color = PURPLE;
                     break;
                 case SPEED_UP:
-                    bonus[i].color = YELLOW;
+                    bonus[i].color = GREEN;
                     break;
                 case SHOOT_WIDTH_UP:
                     bonus[i].color = MAROON;
