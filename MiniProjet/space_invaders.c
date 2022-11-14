@@ -478,7 +478,7 @@ void generateEnemy(){
             generateEnemyFirstWave();
             break;
         case SECOND:
-            generateEnemySecondeWave();
+            generateEnemySecondWave();
             break;
         case THIRD:
             generateEnemyThirdWave();
