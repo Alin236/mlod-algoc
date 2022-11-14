@@ -34,7 +34,7 @@
 //----------------------------------------------------------------------------------
 typedef enum { FIRST = 0, SECOND, THIRD, FOURTH} EnemyWave;
 typedef enum { BASIC = 0, SPEEDY, TANKY, POULPY } EnemyType;
-typedef enum { SHOOT_RATE_UP = 0, SPEED_UP, SHOT_WIDTH_UP, SHIELD } BonusType;
+typedef enum { NONE = 0, SHOOT_RATE_UP, SPEED_UP, SHOOT_WIDTH_UP, SHIELD } BonusType;
 
 typedef struct Player{
     Rectangle rec;
@@ -53,6 +53,7 @@ typedef struct Enemy{
     Color color;
     int life;
     EnemyType type;
+    BonusType bonusType;
 } Enemy;
 
 typedef struct Shoot{
@@ -115,6 +116,8 @@ void mooveEnemy(Enemy*);
 bool checkCollisionWithEnemy(Rectangle, Enemy);
 void drawAllRectangleEnemy(Enemy);
 void activateBonus(Bonus*);
+void generateBonus(BonusType, Enemy*);
+BonusType addBonusToEnemy();
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -400,18 +403,6 @@ void UpdateGame(void)
                             if (checkCollisionWithEnemy(shoot[i].rec, enemy[j]))
                             {
                                 shoot[i].active = false;
-                                if(GetRandomValue(1, 100) >= 75){
-                                    for (int k = 0; k < NUM_BONUS; k++)
-                                    {
-                                        if (!bonus[k].active)
-                                        {
-                                            bonus[k].rec.x = enemy[j].rec[0].x;
-                                            bonus[k].rec.y = enemy[j].rec[0].y;
-                                            bonus[k].active = true;
-                                            break;
-                                        }
-                                    }
-                                }
                                 enemyShooted(enemy+j);
                             }
 
@@ -543,6 +534,8 @@ void generateEnemyFirstWave(){
         enemy[i].color = GRAY;
         enemy[i].life = 1;
         enemy[i].type = BASIC;
+        enemy[i].bonusType = addBonusToEnemy();
+        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
     }
 }
 
@@ -560,6 +553,8 @@ void generateEnemySecondWave(){
         enemy[i].color = GRAY;
         enemy[i].life = 1;
         enemy[i].type = SPEEDY;
+        enemy[i].bonusType = addBonusToEnemy();
+        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
     }
 }
 
@@ -577,6 +572,8 @@ void generateEnemyThirdWave(){
         enemy[i].color = GRAY;
         enemy[i].life = 5;
         enemy[i].type = TANKY;
+        enemy[i].bonusType = addBonusToEnemy();
+        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
     }
 }
 
@@ -610,6 +607,8 @@ void generateEnemyFourthWave(){
         enemy[i].color = GRAY;
         enemy[i].life = 5;
         enemy[i].type = POULPY;
+        enemy[i].bonusType = addBonusToEnemy();
+        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
     }
 }
 
@@ -618,6 +617,7 @@ void enemyShooted(Enemy* enemy){
     if(enemy->life == 0){
         enemy->active = false;
         enemiesKill++;
+        generateBonus(enemy->bonusType, enemy);
     }
 }
 
@@ -673,7 +673,7 @@ void activateBonus(Bonus* bonus){
             player.speed.x++;
             player.speed.y++;
             break;
-        case SHOT_WIDTH_UP:
+        case SHOOT_WIDTH_UP:
             for(int i=0; i<NUM_SHOOTS; i++)
                 shoot[i].rec.height +=2;
             break;
@@ -682,5 +682,54 @@ void activateBonus(Bonus* bonus){
             player.color = BLUE;
         default:
             break;
+    }
+}
+
+void generateBonus(BonusType bonusType, Enemy* enemy){
+    if(bonusType == NONE) return;
+    for (int i = 0; i < NUM_BONUS; i++)
+    {
+        if (!bonus[i].active)
+        {
+            bonus[i].rec.x = enemy->rec[0].x;
+            bonus[i].rec.y = enemy->rec[0].y;
+            bonus[i].active = true;
+            bonus[i].type = bonusType;
+            switch (bonusType)
+            {
+                case SHOOT_RATE_UP:
+                    bonus[i].color = PURPLE;
+                    break;
+                case SPEED_UP:
+                    bonus[i].color = YELLOW;
+                    break;
+                case SHOOT_WIDTH_UP:
+                    bonus[i].color = MAROON;
+                    break;
+                case SHIELD:
+                    bonus[i].color = BLUE;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+    }
+}
+
+BonusType addBonusToEnemy(){
+    if(GetRandomValue(1, 100) < 80) return NONE;
+    switch (GetRandomValue(1,4))
+    {
+        case 1:
+            return SHOOT_RATE_UP;
+        case 2:
+            return SPEED_UP;
+        case 3:
+            return SHOOT_WIDTH_UP;
+        case 4:
+            return SHIELD;
+        default:
+            return NONE;
     }
 }
