@@ -33,7 +33,7 @@
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
 typedef enum { FIRST = 0, SECOND, THIRD, FOURTH} EnemyWave;
-typedef enum { BASIC = 0, SPEEDY, TANKY, POULPY } EnemyType;
+typedef enum { BASICY = 0, SPEEDY, TANKY, POULPY } EnemyType;
 typedef enum { NONE = 0, SHOOT_RATE_UP, SPEED_UP, SHOOT_WIDTH_UP, SHIELD } BonusType;
 
 typedef struct Player{
@@ -107,7 +107,7 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 void playerCollideWithEnemy(Enemy*);
 void playerCollideWithBonus(Bonus*);
 void generateEnemy();
-void generateEnemyBasic(Enemy*);
+void generateEnemyBasicy(Enemy*);
 void generateEnemySpeedy(Enemy*);
 void generateEnemyTanky(Enemy*);
 void generateEnemyPoulpy(Enemy*);
@@ -518,7 +518,7 @@ void generateEnemy(){
         switch (wave)
         {
             case FIRST:
-                generateEnemyBasic(enemy+i);
+                generateEnemyBasicy(enemy+i);
                 break;
             case SECOND:
                 generateEnemySpeedy(enemy+i);
@@ -535,7 +535,7 @@ void generateEnemy(){
     }
 }
 
-void generateEnemyBasic(Enemy* enemy){
+void generateEnemyBasicy(Enemy* enemy){
     enemy->rec[0].width = 10;
     enemy->rec[0].height = 10;
     enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth - 1000);
@@ -546,7 +546,7 @@ void generateEnemyBasic(Enemy* enemy){
     enemy->active = true;
     enemy->color = GRAY;
     enemy->life = 1;
-    enemy->type = BASIC;
+    enemy->type = BASICY;
     enemy->bonusType = addBonusToEnemy();
     if(enemy->bonusType != NONE) enemy->color = GOLD;
 }
