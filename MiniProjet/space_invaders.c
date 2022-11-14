@@ -572,7 +572,7 @@ void generateEnemy(){
 void generateEnemyBasicy(Enemy* enemy){
     enemy->rec[0].width = 10;
     enemy->rec[0].height = 10;
-    enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth - 1000);
+    enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
     enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
     enemy->numberRec = 1;
     enemy->speed.x = 5;
