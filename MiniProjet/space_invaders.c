@@ -28,7 +28,7 @@
 #define FOURTH_WAVE 5
 #define FIFTH_WAVE 30
 
-#define NUM_BONUS 10
+#define NUM_BONUS 30
 
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
