@@ -57,9 +57,9 @@ Utiliser la touche "K" comme "kill" pour tuer tous les ennemis restant de la vag
 
 # URL vidéo de démo
 
-https://www.dropbox.com/scl/fo/a066dmaemqybyr2994lqs/h?dl=0&rlkey=fo4ad39othsblji0gm6lat7gl
+https://youtu.be/vBXK9PvpYqM
 
-https://youtu.be/vBXK9PvpYqM (mauvaise qualité)
+https://www.dropbox.com/scl/fo/a066dmaemqybyr2994lqs/h?dl=0&rlkey=fo4ad39othsblji0gm6lat7gl
 
 # Quelques détails sur votre implémentation
 
