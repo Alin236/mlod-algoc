@@ -107,10 +107,10 @@ static void UpdateDrawFrame(void);  // Update and Draw (one frame)
 void playerCollideWithEnemy(Enemy*);
 void playerCollideWithBonus(Bonus*);
 void generateEnemy();
-void generateEnemyFirstWave();
-void generateEnemySecondWave();
-void generateEnemyThirdWave();
-void generateEnemyFourthWave();
+void generateEnemyBasic(Enemy*);
+void generateEnemySpeedy(Enemy*);
+void generateEnemyTanky(Enemy*);
+void generateEnemyPoulpy(Enemy*);
 void enemyShooted(Enemy*);
 void mooveEnemy(Enemy*);
 bool checkCollisionWithEnemy(Rectangle, Enemy);
@@ -504,114 +504,106 @@ void playerCollideWithBonus(Bonus* bonus){
 
 
 void generateEnemy(){
-    switch (wave)
+    for (int i = 0; i < activeEnemies; i++)
     {
-        case FIRST:
-            generateEnemyFirstWave();
-            break;
-        case SECOND:
-            generateEnemySecondWave();
-            break;
-        case THIRD:
-            generateEnemyThirdWave();
-            break;
-        case FOURTH:
-            generateEnemyFourthWave();
-        default:
-            break;
+        switch (wave)
+        {
+            case FIRST:
+                generateEnemyBasic(enemy+i);
+                break;
+            case SECOND:
+                generateEnemySpeedy(enemy+i);
+                break;
+            case THIRD:
+                generateEnemyTanky(enemy+i);
+                break;
+            case FOURTH:
+                generateEnemyPoulpy(enemy+i);
+                break;
+            default:
+                break;
+        }
     }
 }
 
-void generateEnemyFirstWave(){
-    for (int i = 0; i < activeEnemies; i++)
-    {
-        enemy[i].rec[0].width = 10;
-        enemy[i].rec[0].height = 10;
-        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth - 1000);
-        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
-        enemy[i].numberRec = 1;
-        enemy[i].speed.x = 5;
-        enemy[i].speed.y = 5;
-        enemy[i].active = true;
-        enemy[i].color = GRAY;
-        enemy[i].life = 1;
-        enemy[i].type = BASIC;
-        enemy[i].bonusType = addBonusToEnemy();
-        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
-    }
+void generateEnemyBasic(Enemy* enemy){
+    enemy->rec[0].width = 10;
+    enemy->rec[0].height = 10;
+    enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth - 1000);
+    enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+    enemy->numberRec = 1;
+    enemy->speed.x = 5;
+    enemy->speed.y = 5;
+    enemy->active = true;
+    enemy->color = GRAY;
+    enemy->life = 1;
+    enemy->type = BASIC;
+    enemy->bonusType = addBonusToEnemy();
+    if(enemy->bonusType != NONE) enemy->color = GOLD;
 }
 
-void generateEnemySecondWave(){
-    for (int i = 0; i < activeEnemies; i++)
-    {
-        enemy[i].rec[0].width = 15;
-        enemy[i].rec[0].height = 5;
-        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
-        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
-        enemy[i].numberRec = 1;
-        enemy[i].speed.x = 10;
-        enemy[i].speed.y = 5;
-        enemy[i].active = true;
-        enemy[i].color = GRAY;
-        enemy[i].life = 1;
-        enemy[i].type = SPEEDY;
-        enemy[i].bonusType = addBonusToEnemy();
-        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
-    }
+void generateEnemySpeedy(Enemy* enemy){
+    enemy->rec[0].width = 15;
+    enemy->rec[0].height = 5;
+    enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+    enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+    enemy->numberRec = 1;
+    enemy->speed.x = 10;
+    enemy->speed.y = 5;
+    enemy->active = true;
+    enemy->color = GRAY;
+    enemy->life = 1;
+    enemy->type = SPEEDY;
+    enemy->bonusType = addBonusToEnemy();
+    if(enemy->bonusType != NONE) enemy->color = GOLD;
 }
 
-void generateEnemyThirdWave(){
-    for (int i = 0; i < activeEnemies; i++)
-    {
-        enemy[i].rec[0].width = 30;
-        enemy[i].rec[0].height = 30;
-        enemy[i].rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
-        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
-        enemy[i].numberRec = 1;
-        enemy[i].speed.x = 5;
-        enemy[i].speed.y = 5;
-        enemy[i].active = true;
-        enemy[i].color = GRAY;
-        enemy[i].life = 5;
-        enemy[i].type = TANKY;
-        enemy[i].bonusType = addBonusToEnemy();
-        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
-    }
+void generateEnemyTanky(Enemy* enemy){
+    enemy->rec[0].width = 30;
+    enemy->rec[0].height = 30;
+    enemy->rec[0].x = GetRandomValue(screenWidth, screenWidth + 1000);
+    enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+    enemy->numberRec = 1;
+    enemy->speed.x = 5;
+    enemy->speed.y = 5;
+    enemy->active = true;
+    enemy->color = GRAY;
+    enemy->life = 5;
+    enemy->type = TANKY;
+    enemy->bonusType = addBonusToEnemy();
+    if(enemy->bonusType != NONE) enemy->color = GOLD;
 }
 
-void generateEnemyFourthWave(){
-    for (int i = 0; i < activeEnemies; i++)
-    {
-        enemy[i].rec[0].width = 20;
-        enemy[i].rec[0].height = 20;
-        enemy[i].rec[0].x = GetRandomValue(screenWidth - 1000, -30);
-        enemy[i].rec[0].y = GetRandomValue(0, screenHeight - enemy[i].rec[0].height);
-        enemy[i].rec[1].width = 15;
-        enemy[i].rec[1].height = 15;
-        enemy[i].rec[1].x = enemy[i].rec[0].x - 10;
-        enemy[i].rec[1].y = enemy[i].rec[0].y - 15;
-        enemy[i].rec[2].width = 15;
-        enemy[i].rec[2].height = 15;
-        enemy[i].rec[2].x = enemy[i].rec[0].x - 10;
-        enemy[i].rec[2].y = enemy[i].rec[0].y + 20;
-        enemy[i].rec[3].width = 10;
-        enemy[i].rec[3].height = 10;
-        enemy[i].rec[3].x = enemy[i].rec[1].x - 10;
-        enemy[i].rec[3].y = enemy[i].rec[1].y - 5;
-        enemy[i].rec[4].width = 10;
-        enemy[i].rec[4].height = 10;
-        enemy[i].rec[4].x = enemy[i].rec[2].x - 10;
-        enemy[i].rec[4].y = enemy[i].rec[2].y + 10;
-        enemy[i].numberRec = 5;
-        enemy[i].speed.x = -5;
-        enemy[i].speed.y = 0;
-        enemy[i].active = true;
-        enemy[i].color = GRAY;
-        enemy[i].life = 5;
-        enemy[i].type = POULPY;
-        enemy[i].bonusType = addBonusToEnemy();
-        if(enemy[i].bonusType != NONE) enemy[i].color = GOLD;
-    }
+void generateEnemyPoulpy(Enemy* enemy){
+    enemy->rec[0].width = 20;
+    enemy->rec[0].height = 20;
+    enemy->rec[0].x = GetRandomValue(screenWidth - 1000, -30);
+    enemy->rec[0].y = GetRandomValue(0, screenHeight - enemy->rec[0].height);
+    enemy->rec[1].width = 15;
+    enemy->rec[1].height = 15;
+    enemy->rec[1].x = enemy->rec[0].x - 10;
+    enemy->rec[1].y = enemy->rec[0].y - 15;
+    enemy->rec[2].width = 15;
+    enemy->rec[2].height = 15;
+    enemy->rec[2].x = enemy->rec[0].x - 10;
+    enemy->rec[2].y = enemy->rec[0].y + 20;
+    enemy->rec[3].width = 10;
+    enemy->rec[3].height = 10;
+    enemy->rec[3].x = enemy->rec[1].x - 10;
+    enemy->rec[3].y = enemy->rec[1].y - 5;
+    enemy->rec[4].width = 10;
+    enemy->rec[4].height = 10;
+    enemy->rec[4].x = enemy->rec[2].x - 10;
+    enemy->rec[4].y = enemy->rec[2].y + 10;
+    enemy->numberRec = 5;
+    enemy->speed.x = -5;
+    enemy->speed.y = 0;
+    enemy->active = true;
+    enemy->color = GRAY;
+    enemy->life = 5;
+    enemy->type = POULPY;
+    enemy->bonusType = addBonusToEnemy();
+    if(enemy->bonusType != NONE) enemy->color = GOLD;
 }
 
 void enemyShooted(Enemy* enemy){
