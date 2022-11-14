@@ -59,6 +59,8 @@ Utiliser la touche "K" comme "kill" pour tuer tous les ennemis restant de la vag
 
 https://youtu.be/vBXK9PvpYqM
 
+https://www.dropbox.com/scl/fo/a066dmaemqybyr2994lqs/h?dl=0&rlkey=fo4ad39othsblji0gm6lat7gl
+
 # Quelques détails sur votre implémentation
 
 Tout le code modifié est contenu dans le fichier space_invaders.c
