@@ -177,8 +177,8 @@ void InitGame(void)
     player.rec.y = 50;
     player.rec.width = 20;
     player.rec.height = 20;
-    player.speed.x = 5;
-    player.speed.y = 5;
+    player.speed.x = 4;
+    player.speed.y = 4;
     player.color = BLACK;
     player.life = 2;
     player.shootCharge = 20;
@@ -489,6 +489,7 @@ void playerCollideWithEnemy(Enemy* enemy){
     }
     else player.life -= 1;
 
+    enemy->life = 1;
     enemyShooted(enemy);
     if(player.life == 0){
         gameOver = true;
