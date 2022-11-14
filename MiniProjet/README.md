@@ -29,7 +29,8 @@ Depuis le dossier MiniProjet exécuter la commande :
 
 Le but est de finir toutes les vagues d'ennemis en tuant tous les ennemis de chaque vague.
 
-Chaque vague d'ennemi contient un type d'ennemi spécifique.
+Chaque vague d'ennemi contient un type d'ennemi spécifique excepté la vague finale.
+
 Chaque ennemi ont une chance (20%) d'être golden.
 Les ennemis golden laisse tombé un bonus ramassable par le vaisseau joueur.
 Lorsqu'un bonus est ramassé par le joueur, il gagne, selon la couleur, un des bonus suivant :
@@ -62,7 +63,6 @@ Utiliser la touche "K" comme "kill" pour tuer tous les ennemis restant de la vag
 
 # Extensions / améliorations possibles
 
-- Avoir des vagues contenants plusieurs types d'ennemi différents
 - Rajouter plus de type d'ennemis
 - Rajouter plus de type de bonus
 - Ajouter une animation sur certains ennemis
