@@ -72,7 +72,6 @@ static const int screenHeight = 450;
 
 static bool gameOver = false;
 static bool pause =  false;
-static int score = 0;
 static bool victory = false;
 
 static Player player = { 0 };
@@ -156,7 +155,6 @@ void InitGame(void)
     wave = FIRST;
     activeEnemies = FIRST_WAVE;
     enemiesKill = 0;
-    score = 0;
     alpha = 0;
 
     // Initialize player
@@ -433,7 +431,7 @@ void DrawGame(void)
                 if (bonus[i].active) DrawRectangleRec(bonus[i].rec, bonus[i].color);
             }
 
-            DrawText(TextFormat("%04i", score), 20, 20, 40, GRAY);
+            DrawText(TextFormat("%i/%i", enemiesKill, activeEnemies), 20, 20, 40, GRAY);
             DrawText(TextFormat("Life : %i", player.life), 20, 60, 40, GRAY);
 
             if (victory) DrawText("YOU WIN", screenWidth/2 - MeasureText("YOU WIN", 40)/2, screenHeight/2 - 40, 40, BLACK);
