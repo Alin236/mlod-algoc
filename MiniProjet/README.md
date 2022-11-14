@@ -41,13 +41,17 @@ Lorsqu'un bonus est ramassé par le joueur, il gagne, selon la couleur, un des b
 ## Commandes
 
 Utiliser les flèches directionnelles du clavier afin de bouger le vaisseau joueur.
+
 Utiliser la barre d'espace afin de tirer sur les ennemis.
 
 Utiliser la touche "P" comme "pause" pour mettre le jeux en pause.
+
 Utiliser la touche entrée pour rédémarrer le jeux une fois perdu.
+
 Utiliser la touche echap pour fermer le jeux.
 
 Utiliser la touche "C" comme "cheat" pour gagner des vies.
+
 Utiliser la touche "K" comme "kill" pour tuer tous les ennemis restant de la vague actuelle.
 
 # URL vidéo de démo
