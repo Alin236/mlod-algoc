@@ -220,7 +220,16 @@ void UpdateGame(void)
     if (!gameOver)
     {
         if (IsKeyPressed('P')) pause = !pause;
-        
+        if (IsKeyPressed('C')) player.life++;
+        if (IsKeyPressed('K')) {
+            for(int i=0; i<activeEnemies; i++){
+                if(enemy[i].active){
+                    enemy[i].life = 1;
+                    enemyShooted(enemy+i);
+                }
+            }
+        };
+
         if (!pause)
         {
             switch (wave)
