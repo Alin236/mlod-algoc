@@ -458,7 +458,8 @@ void DrawGame(void)
             }
 
             DrawText(TextFormat("Enemies : %i/%i", enemiesKill, activeEnemies), 20, 20, 40, GRAY);
-            DrawText(TextFormat("Life : %i", player.life), 20, 60, 40, GRAY);
+            DrawText(TextFormat("Wave : %i/4", wave+1), 20, 60, 40, GRAY);
+            DrawText(TextFormat("Life : %i", player.life), 20, screenHeight - 60, 40, GRAY);
 
             if (victory) DrawText("YOU WIN", screenWidth/2 - MeasureText("YOU WIN", 40)/2, screenHeight/2 - 40, 40, BLACK);
 
