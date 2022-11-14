@@ -166,7 +166,7 @@ void InitGame(void)
     player.speed.y = 5;
     player.color = BLACK;
     player.life = 2;
-    player.shootCharge = 3;
+    player.shootCharge = 20;
 
     // Initialize enemies
     generateEnemy();
@@ -431,7 +431,7 @@ void DrawGame(void)
                 if (bonus[i].active) DrawRectangleRec(bonus[i].rec, bonus[i].color);
             }
 
-            DrawText(TextFormat("%i/%i", enemiesKill, activeEnemies), 20, 20, 40, GRAY);
+            DrawText(TextFormat("Enemies : %i/%i", enemiesKill, activeEnemies), 20, 20, 40, GRAY);
             DrawText(TextFormat("Life : %i", player.life), 20, 60, 40, GRAY);
 
             if (victory) DrawText("YOU WIN", screenWidth/2 - MeasureText("YOU WIN", 40)/2, screenHeight/2 - 40, 40, BLACK);
